@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aaronmompie.com/sitemap-index.xml

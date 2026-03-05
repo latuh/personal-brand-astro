@@ -292,6 +292,7 @@ a {
 .kicker-pill {
 	display: inline-flex;
 	align-items: center;
+	gap: 0.4rem;
 	padding: 0.32rem 0.72rem;
 	border-radius: 999px;
 	border: 1px solid var(--line-strong);
@@ -303,12 +304,24 @@ a {
 	background: var(--panel);
 }
 
+.kicker-pill::before {
+	content: '';
+	display: block;
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background: var(--accent);
+	opacity: 0.7;
+}
+
 .hero-title {
-	margin: 0.4rem 0 0.3rem;
-	font-size: clamp(2.4rem, 5.5vw, 4rem);
+	margin: 0.55rem 0 0.4rem;
+	font-family: 'Instrument Serif', Georgia, serif;
+	font-style: italic;
+	font-size: clamp(2.6rem, 5.8vw, 4.4rem);
 	line-height: 0.97;
-	font-weight: 760;
-	letter-spacing: -0.04em;
+	font-weight: 400;
+	letter-spacing: -0.02em;
 	text-wrap: balance;
 }
 
@@ -316,8 +329,9 @@ a {
 	margin: 0;
 	max-width: 44ch;
 	color: var(--text-muted);
-	line-height: 1.62;
+	line-height: 1.65;
 	font-size: 0.95rem;
+	padding-left: 0.15rem;
 }
 
 .hero-actions {
@@ -363,7 +377,7 @@ a {
 	overflow: hidden;
 	aspect-ratio: 4 / 3;
 	background: var(--bg-soft);
-	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.10), 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .carousel-track {
@@ -426,8 +440,7 @@ a {
 
 /* -- Featured strip -------------------------------------- */
 
-.featured-strip {
-}
+.featured-strip {}
 
 .featured-strip-header {
 	display: flex;
@@ -437,6 +450,8 @@ a {
 }
 
 .featured-label {
+	margin: 0;
+	font-family: 'Archivo', system-ui, sans-serif;
 	font-size: 0.68rem;
 	font-weight: 680;
 	text-transform: uppercase;
@@ -455,6 +470,7 @@ a {
 
 .featured-view-all:hover {
 	color: var(--accent);
+	letter-spacing: 0.02em;
 }
 
 .featured-cards {
@@ -561,6 +577,22 @@ a {
 	gap: 2rem;
 }
 
+.about-header {
+	position: relative;
+	padding-left: 1.2rem;
+}
+
+.about-header::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0.15rem;
+	bottom: 0.15rem;
+	width: 3px;
+	border-radius: 2px;
+	background: var(--accent);
+}
+
 .about-columns {
 	display: grid;
 	grid-template-columns: 1.3fr 0.7fr;
@@ -589,12 +621,17 @@ a {
 	margin: 0;
 }
 
-.about-facts > div {
-	padding: 0.7rem 0;
+.about-facts>div {
+	padding: 0.75rem 0;
 	border-bottom: 1px solid var(--line);
+	transition: border-color 0.2s ease;
 }
 
-.about-facts > div:first-child {
+.about-facts>div:hover {
+	border-bottom-color: var(--accent);
+}
+
+.about-facts>div:first-child {
 	padding-top: 0;
 }
 
@@ -623,19 +660,38 @@ a {
 	font-weight: 600;
 	text-decoration: none;
 	color: var(--text-muted);
+	position: relative;
+}
+
+.about-links-row a::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: -2px;
+	width: 0;
+	height: 1.5px;
+	background: var(--accent);
+	transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .about-links-row a:hover {
 	color: var(--accent);
 }
 
+.about-links-row a:hover::after {
+	width: 100%;
+}
+
 /* -- Section helpers ------------------------------------- */
 
 .section-heading {
 	margin: 0;
-	font-size: clamp(1.8rem, 4.5vw, 3rem);
-	line-height: 1;
-	letter-spacing: -0.02em;
+	font-family: 'Instrument Serif', Georgia, serif;
+	font-style: italic;
+	font-size: clamp(2rem, 4.8vw, 3.2rem);
+	line-height: 1.02;
+	font-weight: 400;
+	letter-spacing: -0.01em;
 	text-wrap: balance;
 }
 
@@ -879,18 +935,39 @@ a {
 /* -- Animations ------------------------------------------ */
 
 @keyframes fadeUp {
-	from { opacity: 0; transform: translateY(18px); }
-	to   { opacity: 1; transform: translateY(0); }
+	from {
+		opacity: 0;
+		transform: translateY(18px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 @keyframes fadeDown {
-	from { opacity: 0; transform: translateY(-14px); }
-	to   { opacity: 1; transform: translateY(0); }
+	from {
+		opacity: 0;
+		transform: translateY(-14px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 @keyframes slideInRight {
-	from { opacity: 0; transform: translateX(32px); }
-	to   { opacity: 1; transform: translateX(0); }
+	from {
+		opacity: 0;
+		transform: translateX(32px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
 }
 
 .anim-fade-up {
@@ -924,7 +1001,7 @@ a {
 	opacity: 0;
 	transform: translateY(18px);
 	transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-	            transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+		transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 	transition-delay: var(--reveal-delay, 0s);
 }
 
@@ -936,6 +1013,7 @@ a {
 /* -- Responsive ------------------------------------------ */
 
 @media (max-width: 1024px) {
+
 	.hero-top,
 	.about-columns,
 	.post-list-grid {

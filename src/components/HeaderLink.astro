@@ -6,25 +6,25 @@ type Props = HTMLAttributes<"a">;
 const { href = "/", class: className, ...props } = Astro.props as Props;
 
 const normalizePath = (value: string) => {
-    const cleaned = value
-        .replace(import.meta.env.BASE_URL, "")
-        .replace(/\/+$/, "");
-    return cleaned === "" ? "/" : cleaned;
+	const cleaned = value
+		.replace(import.meta.env.BASE_URL, "")
+		.replace(/\/+$/, "");
+	return cleaned === "" ? "/" : cleaned;
 };
 
 const currentPath = normalizePath(Astro.url.pathname);
 const targetPath = normalizePath(String(href));
 const isActive =
-    targetPath === "/"
-        ? currentPath === "/"
-        : currentPath === targetPath ||
-          currentPath.startsWith(`${targetPath}/`);
+	targetPath === "/"
+		? currentPath === "/"
+		: currentPath === targetPath ||
+			currentPath.startsWith(`${targetPath}/`);
 ---
 
 <a
-    href={href}
-    class:list={["nav-link", className, { active: isActive }]}
-    {...props}
+	href={href}
+	class:list={["nav-link", className, { active: isActive }]}
+	{...props}
 >
-    <slot />
+	<slot />
 </a>

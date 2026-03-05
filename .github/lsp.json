@@ -1,16 +1,29 @@
 {
-  "languageServers": {
+  "lspServers": {
     "astro": {
       "command": "astro-ls",
-      "args": ["--stdio"]
+      "args": ["--stdio"],
+      "fileExtensions": {
+        ".astro": "astro"
+      }
     },
     "tailwindcss": {
       "command": "tailwindcss-language-server",
-      "args": ["--stdio"]
+      "args": ["--stdio"],
+      "fileExtensions": {
+        ".css": "css",
+        ".scss": "scss",
+        ".less": "less",
+        ".html": "html"
+      }
     },
     "typescript": {
       "command": "typescript-language-server",
-      "args": ["--stdio"]
+      "args": ["--stdio"],
+      "fileExtensions": {
+        ".ts": "typescript",
+        ".tsx": "typescript"
+      }
     }
   }
 }

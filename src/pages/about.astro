@@ -1,41 +1,39 @@
 ---
 import AboutHeroImage from "../assets/blog-placeholder-about.jpg";
-import Layout from "../layouts/BlogPost.astro";
+import Layout from "../layouts/Page.astro";
 ---
 
 <Layout
-    id="about"
-    title="About"
-    description="Infrastructure engineer and writer focused on resilient systems and practical thinking."
-    pubDate={new Date("January 08 2026")}
-    heroImage={AboutHeroImage}
+	title="About"
+	description="Infrastructure engineer and writer focused on resilient systems and practical thinking."
+	heroImage={AboutHeroImage}
 >
-    <p>
-        I work at the intersection of platform reliability and long-form
-        writing. Most of my engineering effort goes into reducing operational
-        fragility, while my writing translates those lessons into ideas other
-        builders can use.
-    </p>
+	<p>
+		I work at the intersection of platform reliability and long-form
+		writing. Most of my engineering effort goes into reducing operational
+		fragility, while my writing translates those lessons into ideas other
+		builders can use.
+	</p>
 
-    <p>
-        My favorite projects are the ones where architecture and behavior
-        reinforce each other: clear systems, explicit trade-offs, and habits
-        that keep teams steady when pressure rises.
-    </p>
+	<p>
+		My favorite projects are the ones where architecture and behavior
+		reinforce each other: clear systems, explicit trade-offs, and habits
+		that keep teams steady when pressure rises.
+	</p>
 
-    <h2>How I work</h2>
-    <ul class="about-list">
-        <li>Design for recovery paths first, then optimize for speed.</li>
-        <li>Prefer measurable reliability gains over abstract complexity.</li>
-        <li>
-            Document decisions in public so the next iteration starts stronger.
-        </li>
-    </ul>
+	<h2>How I work</h2>
+	<ul class="about-list">
+		<li>Design for recovery paths first, then optimize for speed.</li>
+		<li>Prefer measurable reliability gains over abstract complexity.</li>
+		<li>
+			Document decisions in public so the next iteration starts stronger.
+		</li>
+	</ul>
 
-    <h2>Outside the terminal</h2>
-    <p>
-        I am building a library of essays on resilience in infrastructure and in
-        life. If you care about systems that stay useful under stress, you are
-        in the right place.
-    </p>
+	<h2>Outside the terminal</h2>
+	<p>
+		I am building a library of essays on resilience in infrastructure and in
+		life. If you care about systems that stay useful under stress, you are
+		in the right place.
+	</p>
 </Layout>

@@ -5,60 +5,89 @@ import BaseHead from "../components/BaseHead.astro";
 import Footer from "../components/Footer.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import Header from "../components/Header.astro";
+import { SITE_TITLE } from "../consts";
 
 type Props = CollectionEntry<"blog">["data"] & { id: string };
 
 const { id, title, description, pubDate, updatedDate, heroImage } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const jsonLd = {
+	"@context": "https://schema.org",
+	"@type": "BlogPosting",
+	headline: title,
+	description,
+	datePublished: pubDate.toISOString(),
+	...(updatedDate && { dateModified: updatedDate.toISOString() }),
+	author: {
+		"@type": "Person",
+		name: SITE_TITLE,
+		url: Astro.site?.toString(),
+	},
+	publisher: { "@type": "Person", name: SITE_TITLE },
+	mainEntityOfPage: { "@type": "WebPage", "@id": canonicalURL.toString() },
+	...(heroImage && { image: new URL(heroImage.src, Astro.url).toString() }),
+};
 ---
 
+<!doctype html>
 <html lang="en">
-    <head>
-        <BaseHead title={title} description={description} />
-    </head>
-    <body>
-        <Header />
-        <main class="site-main">
-            <section class="section">
-                <div class="container">
-                    <article class="surface article-shell">
-                        {
-                            heroImage && (
-                                <div class="article-cover">
-                                    <Picture
-                                        width={1120}
-                                        height={620}
-                                        src={heroImage}
-                                        alt={title}
-                                        formats={["avif", "webp"]}
-                                        transition:name={`post-image-${id}`}
-                                    />
-                                </div>
-                            )
-                        }
+	<head>
+		<BaseHead
+			title={title}
+			description={description}
+			image={heroImage}
+			type="article"
+			publishedTime={pubDate}
+			modifiedTime={updatedDate}
+		/>
+		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+	</head>
+	<body>
+		<Header />
+		<main class="site-main">
+			<section class="section">
+				<div class="container">
+					<article class="surface article-shell">
+						{
+							heroImage && (
+								<div class="article-cover">
+									<Picture
+										width={1120}
+										height={620}
+										src={heroImage}
+										alt={title}
+										formats={["avif", "webp"]}
+										sizes="(max-width: 768px) 100vw, 1120px"
+										transition:name={`post-image-${id}`}
+									/>
+								</div>
+							)
+						}
 
-                        <div class="article-meta">
-                            <p class="date">
-                                <FormattedDate date={pubDate} />
-                                {
-                                    updatedDate && (
-                                        <span>
-                                            · Updated{" "}
-                                            <FormattedDate date={updatedDate} />
-                                        </span>
-                                    )
-                                }
-                            </p>
-                            <h1 class="article-title">{title}</h1>
-                            <p class="article-description">{description}</p>
-                        </div>
+						<div class="article-meta">
+							<p class="date">
+								<FormattedDate date={pubDate} />
+								{
+									updatedDate && (
+										<span>
+											· Updated{" "}
+											<FormattedDate date={updatedDate} />
+										</span>
+									)
+								}
+							</p>
+							<h1 class="article-title">{title}</h1>
+							<p class="article-description">{description}</p>
+						</div>
 
-                        <div class="article-content">
-                            <slot />
-                        </div>
-                    </article>
-                </div>
-            </section>
-        </main>
-        <Footer />
-    </body>
+						<div class="article-content">
+							<slot />
+						</div>
+					</article>
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
 </html>

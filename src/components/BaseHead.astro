@@ -8,14 +8,27 @@ import FallbackImage from "../assets/blog-placeholder-1.jpg";
 import { SITE_TITLE } from "../consts";
 
 interface Props {
-    title: string;
-    description: string;
-    image?: ImageMetadata;
+	title: string;
+	description: string;
+	image?: ImageMetadata;
+	type?: "website" | "article";
+	publishedTime?: Date;
+	modifiedTime?: Date;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = FallbackImage } = Astro.props;
+const {
+	title,
+	description,
+	image = FallbackImage,
+	type = "website",
+	publishedTime,
+	modifiedTime,
+} = Astro.props;
+
+const fullTitle = title === SITE_TITLE ? title : `${title} | ${SITE_TITLE}`;
+const imageURL = new URL(image.src, Astro.url);
 ---
 
 <!-- Global Metadata -->
@@ -25,10 +38,10 @@ const { title, description, image = FallbackImage } = Astro.props;
 <link rel="icon" href="/favicon.ico" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link
-    rel="alternate"
-    type="application/rss+xml"
-    title={SITE_TITLE}
-    href={new URL("rss.xml", Astro.site)}
+	rel="alternate"
+	type="application/rss+xml"
+	title={SITE_TITLE}
+	href={new URL("rss.xml", Astro.site)}
 />
 <meta name="generator" content={Astro.generator} />
 <meta name="theme-color" content="#ffffff" />
@@ -38,46 +51,65 @@ const { title, description, image = FallbackImage } = Astro.props;
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
-    href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Instrument+Serif:ital@0;1&display=swap"
-    rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Instrument+Serif:ital@0;1&display=swap"
+	rel="stylesheet"
 />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
 <!-- Primary Meta Tags -->
-<title>{title}</title>
-<meta name="title" content={title} />
+<title>{fullTitle}</title>
 <meta name="description" content={description} />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content={type} />
 <meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={title} />
+<meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image.src, Astro.url)} />
+<meta property="og:image" content={imageURL} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content={SITE_TITLE} />
+<meta property="og:locale" content="en_US" />
+{
+	type === "article" && publishedTime && (
+		<meta
+			property="article:published_time"
+			content={publishedTime.toISOString()}
+		/>
+	)
+}
+{
+	type === "article" && modifiedTime && (
+		<meta
+			property="article:modified_time"
+			content={modifiedTime.toISOString()}
+		/>
+	)
+}
 
 <!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image.src, Astro.url)} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={Astro.url} />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageURL} />
 
 <!-- Skip entrance animations on SPA back-navigation -->
 <script is:inline>
-(function() {
-	var visited = new Set();
-	function mark() {
-		var path = location.pathname;
-		if (visited.has(path)) {
-			document.documentElement.classList.add('has-visited');
-		} else {
-			document.documentElement.classList.remove('has-visited');
-			visited.add(path);
+	(function () {
+		var visited = new Set();
+		function mark() {
+			var path = location.pathname;
+			if (visited.has(path)) {
+				document.documentElement.classList.add("has-visited");
+			} else {
+				document.documentElement.classList.remove("has-visited");
+				visited.add(path);
+			}
 		}
-	}
-	mark();
-	document.addEventListener('astro:after-swap', mark);
-})();
+		mark();
+		document.addEventListener("astro:after-swap", mark);
+	})();
 </script>

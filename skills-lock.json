@@ -6,6 +6,21 @@
       "sourceType": "github",
       "computedHash": "009dd46bb418abc15db4402ef94b71dc65be01d90ca0193ab94763a60e07096a"
     },
+    "create-agentsmd": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "bfbdbb76b17cca970d1d624e36ce72b6847860d740581c8865da796c1fef8552"
+    },
+    "create-llms": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "2eea327b7f6ad67d91addd334a864f545cd5a1474dd8b03f7a00abc70b2715e2"
+    },
+    "create-web-form": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "2fb5aaf1a1d352e6c32e765668475e1221486f5df8f3cd164e5f3dab4c6cec86"
+    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
@@ -21,10 +36,25 @@
       "sourceType": "github",
       "computedHash": "4cfe5e95a230616c17d92b44e3cd37bae543ce087a7756a446a62f77d7c58a37"
     },
+    "update-llms": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "c54d9353f00ae1d34dd2804ab771e77545ba1a442337c7ba35f47e3c79866b6a"
+    },
+    "web-coder": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "f26b2845e3b1ccd59ff2158c45fe2872038e27237757e063d3811a1244757074"
+    },
     "web-design-guidelines": {
       "source": "vercel-labs/agent-skills",
       "sourceType": "github",
       "computedHash": "d8e7d3afe37dcc8a97b99ffb5afdb4d0919ae0092ea8b68f44eb201f035e33ac"
+    },
+    "web-design-reviewer": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "10c6fad8b4f01dbeae969009d81d6c306c8a96d56077cad9bfe2a73a38f5dcbe"
     }
   }
 }

@@ -1,8 +1,16 @@
 {
-  "servers": {
-    "playwright": {
-      "command": "npx",
-      "args": ["@playwright/mcp@latest"]
-    }
-  }
+	"servers": {
+		"playwright": {
+			"command": "npx",
+			"args": [
+				"@playwright/mcp@latest"
+			],
+			"type": "stdio"
+		},
+		"astro-docs": {
+			"url": "https://mcp.docs.astro.build/mcp",
+			"type": "http"
+		}
+	},
+	"inputs": []
 }
