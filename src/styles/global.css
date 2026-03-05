@@ -309,6 +309,7 @@ a {
 	line-height: 0.97;
 	font-weight: 760;
 	letter-spacing: -0.04em;
+	text-wrap: balance;
 }
 
 .hero-body {
@@ -344,6 +345,7 @@ a {
 	border: 1px solid var(--line);
 	color: var(--text-muted);
 	text-decoration: none;
+	cursor: pointer;
 	transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 }
 
@@ -404,19 +406,22 @@ a {
 	height: 7px;
 	border-radius: 50%;
 	border: none;
-	padding: 0;
+	padding: 0.5rem;
 	background: rgba(255, 255, 255, 0.45);
 	cursor: pointer;
 	transition: background 0.25s ease, transform 0.25s ease;
+	background-clip: content-box;
 }
 
 .carousel-dot.is-active {
 	background: var(--accent);
+	background-clip: content-box;
 	transform: scale(1.25);
 }
 
 .carousel-dot:hover {
 	background: rgba(255, 255, 255, 0.85);
+	background-clip: content-box;
 }
 
 /* -- Featured strip -------------------------------------- */
@@ -444,6 +449,7 @@ a {
 	font-weight: 600;
 	color: var(--text-muted);
 	text-decoration: none;
+	cursor: pointer;
 	transition: color 0.2s ease;
 }
 
@@ -465,6 +471,7 @@ a {
 	border-radius: 0.9rem;
 	overflow: hidden;
 	height: 280px;
+	cursor: pointer;
 	transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -629,6 +636,7 @@ a {
 	font-size: clamp(1.8rem, 4.5vw, 3rem);
 	line-height: 1;
 	letter-spacing: -0.02em;
+	text-wrap: balance;
 }
 
 .section-lead {

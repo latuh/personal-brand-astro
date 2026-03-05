@@ -1,0 +1,16 @@
+{
+  "languageServers": {
+    "astro": {
+      "command": "astro-ls",
+      "args": ["--stdio"]
+    },
+    "tailwindcss": {
+      "command": "tailwindcss-language-server",
+      "args": ["--stdio"]
+    },
+    "typescript": {
+      "command": "typescript-language-server",
+      "args": ["--stdio"]
+    }
+  }
+}
