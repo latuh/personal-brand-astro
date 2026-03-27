@@ -1,0 +1,476 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import { PROJECTS, SITE_TITLE, SITE_LINKEDIN_URL } from "../consts";
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title={`Projects — ${SITE_TITLE}`}
+			description="Selected projects in infrastructure, automation, and the systems behind the scenes."
+		/>
+	</head>
+	<body>
+		<a href="#main" class="sr-only skip-link">Skip to content</a>
+		<Header />
+		<main id="main" class="site-main">
+			<!-- Hero -->
+			<section class="proj-hero" aria-labelledby="proj-heading">
+				<div class="container">
+					<h1
+						id="proj-heading"
+						class="proj-hero-title anim-fade-up"
+						style="--delay: 0.05s"
+					>
+						Selected Work
+					</h1>
+					<p
+						class="proj-hero-sub anim-fade-up"
+						style="--delay: 0.15s"
+					>
+						Infrastructure, automation, and the systems behind the
+						scenes.
+					</p>
+				</div>
+			</section>
+
+			<!-- Project entries -->
+			<section class="proj-list" aria-label="Projects">
+				<div class="container">
+					{
+						PROJECTS.map((project, i) => (
+							<article
+								class:list={[
+									"proj-entry",
+									"reveal",
+									i % 2 !== 0 && "proj-entry--flip",
+								]}
+							>
+								<div class="proj-entry-inner">
+									<div class="proj-num-col">
+										<span class="proj-num" aria-hidden="true">
+											{String(i + 1).padStart(2, "0")}
+										</span>
+									</div>
+
+									<div class="proj-content-col">
+										<h2 class="proj-title">{project.title}</h2>
+										<span class="proj-role">{project.role}</span>
+										<p class="proj-desc">
+											{project.longDescription}
+										</p>
+										<ul class="proj-stack" role="list">
+											{project.techStack.map((tech) => (
+												<li class="proj-tag">{tech}</li>
+											))}
+										</ul>
+										{project.url && (
+											<a
+												href={project.url}
+												class="proj-link"
+												target="_blank"
+												rel="noopener noreferrer"
+											>
+												View project &rarr;
+											</a>
+										)}
+										{project.github && (
+											<a
+												href={project.github}
+												class="proj-link"
+												target="_blank"
+												rel="noopener noreferrer"
+											>
+												Source &rarr;
+											</a>
+										)}
+									</div>
+								</div>
+								{i < PROJECTS.length - 1 && <hr class="proj-rule" />}
+							</article>
+						))
+					}
+				</div>
+			</section>
+
+			<!-- CTA -->
+			<section class="proj-cta reveal" aria-label="Get in touch">
+				<div class="container proj-cta-inner">
+					<span class="proj-cta-deco" aria-hidden="true"></span>
+					<h2 class="proj-cta-heading">Have a project in mind?</h2>
+					<p class="proj-cta-body">
+						I'm always open to interesting infrastructure challenges
+						and collaborative work.
+					</p>
+					<a
+						href={SITE_LINKEDIN_URL}
+						class="btn btn-primary"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						Let's connect
+					</a>
+				</div>
+			</section>
+		</main>
+		<Footer />
+
+		<script is:inline>
+			(function () {
+				const observer = new IntersectionObserver(
+					(entries) => {
+						entries.forEach((entry) => {
+							if (entry.isIntersecting) {
+								entry.target.classList.add("is-visible");
+								observer.unobserve(entry.target);
+							}
+						});
+					},
+					{ threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
+				);
+				document
+					.querySelectorAll(".reveal")
+					.forEach((el) => observer.observe(el));
+			})();
+		</script>
+	</body>
+</html>
+
+<style>
+	/* ── Hero ────────────────────────────────────────── */
+	.proj-hero {
+		padding: 6rem 0 3rem;
+		text-align: center;
+		position: relative;
+	}
+
+	.proj-hero-title {
+		font-family: "Instrument Serif", serif;
+		font-style: italic;
+		font-size: clamp(3.5rem, 8vw, 7rem);
+		line-height: 1.05;
+		letter-spacing: -0.02em;
+		color: var(--text);
+		margin: 0;
+	}
+
+	.proj-hero-sub {
+		font-family: "Archivo", sans-serif;
+		font-size: clamp(1rem, 1.8vw, 1.25rem);
+		color: var(--text-muted);
+		margin: 1rem 0 0;
+		font-weight: 400;
+	}
+
+	/* ── Project list ───────────────────────────────── */
+	.proj-list {
+		padding: 2rem 0 4rem;
+	}
+
+	/* ── Entry ──────────────────────────────────────── */
+	.proj-entry {
+		padding: 4rem 0;
+		position: relative;
+	}
+
+	.proj-entry-inner {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 2.5rem;
+		align-items: start;
+	}
+
+	/* Flip even entries: number moves to the right */
+	.proj-entry--flip .proj-entry-inner {
+		grid-template-columns: 1fr auto;
+	}
+
+	.proj-entry--flip .proj-num-col {
+		order: 2;
+		text-align: right;
+	}
+
+	.proj-entry--flip .proj-content-col {
+		order: 1;
+		text-align: right;
+	}
+
+	.proj-entry--flip .proj-stack {
+		justify-content: flex-end;
+	}
+
+	.proj-entry--flip .proj-link {
+		margin-left: auto;
+	}
+
+	/* Hover accent line */
+	.proj-entry::before {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 4rem;
+		bottom: 0;
+		width: 3px;
+		background: var(--accent);
+		border-radius: 2px;
+		opacity: 0;
+		transform: scaleY(0.3);
+		transform-origin: top;
+		transition:
+			opacity 0.3s ease,
+			transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.proj-entry--flip::before {
+		left: auto;
+		right: 0;
+		transform-origin: top;
+	}
+
+	.proj-entry:hover::before {
+		opacity: 1;
+		transform: scaleY(1);
+	}
+
+	/* ── Number ─────────────────────────────────────── */
+	.proj-num {
+		font-family: "Instrument Serif", serif;
+		font-style: italic;
+		font-size: clamp(4rem, 6vw, 6rem);
+		line-height: 1;
+		color: var(--accent);
+		opacity: 0.15;
+		display: block;
+		transition: opacity 0.3s ease;
+		user-select: none;
+	}
+
+	.proj-entry:hover .proj-num {
+		opacity: 1;
+	}
+
+	/* ── Content ────────────────────────────────────── */
+	.proj-title {
+		font-family: "Archivo", sans-serif;
+		font-size: clamp(1.5rem, 2.5vw, 2rem);
+		font-weight: 700;
+		color: var(--text);
+		margin: 0 0 0.75rem;
+		padding-bottom: 0.75rem;
+		border-bottom: 2px solid var(--accent-soft);
+		line-height: 1.2;
+	}
+
+	.proj-role {
+		display: inline-block;
+		font-family: "Archivo", sans-serif;
+		font-size: 0.7rem;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--accent);
+		background: var(--accent-soft);
+		padding: 0.25rem 0.65rem;
+		border-radius: 999px;
+		margin-bottom: 1.25rem;
+	}
+
+	.proj-desc {
+		font-family: "Archivo", sans-serif;
+		font-size: 1rem;
+		line-height: 1.7;
+		color: var(--text-muted);
+		margin: 0 0 1.5rem;
+		max-width: 52ch;
+	}
+
+	.proj-entry--flip .proj-desc {
+		margin-left: auto;
+	}
+
+	/* ── Tech tags ──────────────────────────────────── */
+	.proj-stack {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		list-style: none;
+		padding: 0;
+		margin: 0 0 1.5rem;
+	}
+
+	.proj-tag {
+		font-family: "Archivo", sans-serif;
+		font-size: 0.75rem;
+		font-weight: 500;
+		letter-spacing: 0.04em;
+		color: var(--text-muted);
+		border: 1px solid var(--line-strong);
+		background: var(--panel-soft);
+		padding: 0.3rem 0.7rem;
+		border-radius: 0.35rem;
+	}
+
+	/* ── Project link ───────────────────────────────── */
+	.proj-link {
+		display: inline-block;
+		font-family: "Archivo", sans-serif;
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--accent);
+		text-decoration: none;
+		letter-spacing: 0.02em;
+		transition: color 0.2s ease;
+	}
+
+	.proj-link:hover,
+	.proj-link:focus-visible {
+		color: var(--accent-hover);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	.proj-link:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 3px;
+		border-radius: 2px;
+	}
+
+	/* ── Divider ────────────────────────────────────── */
+	.proj-rule {
+		border: none;
+		border-top: 1px solid var(--line);
+		margin: 0;
+	}
+
+	/* ── Reveal (scroll) ────────────────────────────── */
+	.proj-entry.reveal {
+		opacity: 0;
+		transform: translateY(2rem);
+		transition:
+			opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+			transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.proj-entry.reveal.is-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.proj-cta.reveal {
+		opacity: 0;
+		transform: translateY(2rem);
+		transition:
+			opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+			transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.proj-cta.reveal.is-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	/* ── CTA ────────────────────────────────────────── */
+	.proj-cta {
+		padding: 5rem 0 6rem;
+	}
+
+	.proj-cta-inner {
+		text-align: center;
+		position: relative;
+	}
+
+	.proj-cta-deco {
+		position: absolute;
+		top: -2.5rem;
+		left: 50%;
+		width: 60px;
+		height: 2px;
+		background: var(--accent);
+		transform: translateX(-50%) rotate(-12deg);
+		opacity: 0.4;
+	}
+
+	.proj-cta-heading {
+		font-family: "Instrument Serif", serif;
+		font-style: italic;
+		font-size: clamp(2rem, 4vw, 3rem);
+		color: var(--text);
+		margin: 0 0 0.75rem;
+	}
+
+	.proj-cta-body {
+		font-family: "Archivo", sans-serif;
+		font-size: 1.05rem;
+		color: var(--text-muted);
+		margin: 0 0 2rem;
+		line-height: 1.6;
+	}
+
+	/* ── Responsive ─────────────────────────────────── */
+	@media (max-width: 760px) {
+		.proj-hero {
+			padding: 4rem 0 2rem;
+		}
+
+		.proj-entry {
+			padding: 2.5rem 0;
+		}
+
+		.proj-entry-inner {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+		}
+
+		/* Reset flip on mobile */
+		.proj-entry--flip .proj-num-col,
+		.proj-entry--flip .proj-content-col {
+			order: unset;
+			text-align: left;
+		}
+
+		.proj-entry--flip .proj-stack {
+			justify-content: flex-start;
+		}
+
+		.proj-entry--flip .proj-link {
+			margin-left: 0;
+		}
+
+		.proj-entry--flip .proj-desc {
+			margin-left: 0;
+		}
+
+		.proj-num {
+			font-size: 2.5rem;
+		}
+
+		/* Accent line always on left for mobile */
+		.proj-entry--flip::before {
+			left: 0;
+			right: auto;
+		}
+
+		.proj-cta {
+			padding: 3rem 0 4rem;
+		}
+	}
+
+	/* ── Reduced motion ─────────────────────────────── */
+	@media (prefers-reduced-motion: reduce) {
+		.proj-entry.reveal,
+		.proj-cta.reveal {
+			opacity: 1;
+			transform: none;
+			transition: none;
+		}
+
+		.proj-num,
+		.proj-entry::before {
+			transition: none;
+		}
+	}
+</style>
