@@ -1,5 +1,5 @@
 ---
-import { SITE_TITLE } from "../consts";
+import { SITE_TITLE, SITE_LINKEDIN_URL, SITE_X_URL, SITE_INSTAGRAM_URL } from "../consts";
 import HeaderLink from "./HeaderLink.astro";
 ---
 
@@ -12,5 +12,88 @@ import HeaderLink from "./HeaderLink.astro";
 			<HeaderLink href="/blog">Writing</HeaderLink>
 			<HeaderLink href="/about">About</HeaderLink>
 		</div>
+		<button
+			class="nav-hamburger"
+			aria-label="Open navigation menu"
+			aria-expanded="false"
+			aria-controls="mobile-menu"
+		>
+			<span class="nav-hamburger-bar"></span>
+			<span class="nav-hamburger-bar"></span>
+			<span class="nav-hamburger-bar"></span>
+		</button>
 	</nav>
 </header>
+
+<div id="mobile-menu" class="mobile-menu" aria-hidden="true" transition:persist>
+	<nav class="mobile-menu-nav" aria-label="Mobile navigation">
+		<a href="/" class="mobile-nav-link">Home</a>
+		<a href="/projects" class="mobile-nav-link">Projects</a>
+		<a href="/blog" class="mobile-nav-link">Writing</a>
+		<a href="/about" class="mobile-nav-link">About</a>
+	</nav>
+	<div class="mobile-menu-socials">
+		<a href={SITE_LINKEDIN_URL} rel="noreferrer" target="_blank">LinkedIn</a>
+		<a href={SITE_X_URL} rel="noreferrer" target="_blank">X / Twitter</a>
+		<a href={SITE_INSTAGRAM_URL} rel="noreferrer" target="_blank">Instagram</a>
+	</div>
+</div>
+
+<script is:inline>
+(function () {
+	function normalizePath(v) {
+		var s = (v || '/').replace(/\/+$/, '');
+		return s === '' ? '/' : s;
+	}
+
+	function updateActiveLinks() {
+		var current = normalizePath(window.location.pathname);
+		document.querySelectorAll('.mobile-nav-link').forEach(function (link) {
+			var target = normalizePath(link.getAttribute('href'));
+			var active = target === '/'
+				? current === '/'
+				: current === target || current.startsWith(target + '/');
+			link.classList.toggle('is-active', active);
+		});
+	}
+
+	function closeMenu() {
+		var btn = document.querySelector('.nav-hamburger');
+		var menu = document.getElementById('mobile-menu');
+		if (btn) {
+			btn.setAttribute('aria-expanded', 'false');
+			btn.setAttribute('aria-label', 'Open navigation menu');
+		}
+		if (menu) {
+			menu.classList.remove('is-open');
+			menu.setAttribute('aria-hidden', 'true');
+		}
+		document.body.style.overflow = '';
+	}
+
+	var btn = document.querySelector('.nav-hamburger');
+	var menu = document.getElementById('mobile-menu');
+
+	if (btn && menu) {
+		btn.addEventListener('click', function () {
+			var open = menu.classList.contains('is-open');
+			if (open) {
+				closeMenu();
+			} else {
+				btn.setAttribute('aria-expanded', 'true');
+				btn.setAttribute('aria-label', 'Close navigation menu');
+				menu.classList.add('is-open');
+				menu.removeAttribute('aria-hidden');
+				document.body.style.overflow = 'hidden';
+			}
+		});
+	}
+
+	updateActiveLinks();
+
+	document.addEventListener('astro:after-swap', function () {
+		closeMenu();
+		updateActiveLinks();
+	});
+})();
+</script>

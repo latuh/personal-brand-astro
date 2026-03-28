@@ -235,60 +235,73 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft))
 										View all &rarr;
 									</a>
 								</div>
-								<div class="featured-cards">
-									{posts.map((post) => (
-										<a
-											href={`/blog/${post.id}/`}
-											class="fcard"
-										>
-											{post.data.heroImage && (
-												<div class="fcard-thumb">
-													<Picture
-														width={400}
-														height={533}
-														src={
-															post.data.heroImage
-														}
-														alt={post.data.title}
-														formats={[
-															"avif",
-															"webp",
-														]}
-														sizes="(max-width: 768px) 50vw, 400px"
-														transition:name={`post-image-${post.id}`}
-													/>
+								<div class="featured-cards" role="region" aria-label="Featured posts">
+									<div class="featured-track" id="featured-track">
+										{posts.map((post) => (
+											<a
+												href={`/blog/${post.id}/`}
+												class="fcard"
+											>
+												{post.data.heroImage && (
+													<div class="fcard-thumb">
+														<Picture
+															width={400}
+															height={533}
+															src={
+																post.data.heroImage
+															}
+															alt={post.data.title}
+															formats={[
+																"avif",
+																"webp",
+															]}
+															sizes="(max-width: 768px) 50vw, 400px"
+															transition:name={`post-image-${post.id}`}
+														/>
+													</div>
+												)}
+												<div class="fcard-content">
+													<div class="fcard-meta">
+														<p class="fcard-date">
+															{post.data.pubDate.toLocaleDateString(
+																"en-US",
+																{
+																	month: "short",
+																	day: "numeric",
+																},
+															)}
+														</p>
+														<h3 class="fcard-title">
+															{post.data.title}
+														</h3>
+													</div>
+													<svg
+														class="fcard-arrow"
+														width="16"
+														height="16"
+														viewBox="0 0 24 24"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+														aria-hidden="true"
+													>
+														<path d="M7 17L17 7M17 7H7M17 7v10" />
+													</svg>
 												</div>
-											)}
-											<div class="fcard-content">
-												<div class="fcard-meta">
-													<p class="fcard-date">
-														{post.data.pubDate.toLocaleDateString(
-															"en-US",
-															{
-																month: "short",
-																day: "numeric",
-															},
-														)}
-													</p>
-													<h3 class="fcard-title">
-														{post.data.title}
-													</h3>
-												</div>
-												<svg
-													class="fcard-arrow"
-													width="16"
-													height="16"
-													viewBox="0 0 24 24"
-													fill="none"
-													stroke="currentColor"
-													stroke-width="2"
-													aria-hidden="true"
-												>
-													<path d="M7 17L17 7M17 7H7M17 7v10" />
-												</svg>
-											</div>
-										</a>
-									))}
+											</a>
+										))}
+									</div>
+									<div class="featured-dots" id="featured-dots" role="tablist" aria-label="Browse featured posts">
+										{posts.map((_post, i) => (
+											<button
+												class:list={["featured-dot", { "is-active": i === 0 }]}
+												aria-label={`Go to post ${i + 1}`}
+												aria-selected={i === 0 ? "true" : "false"}
+												role="tab"
+												data-index={i}
+											/>
+										))}
+									</div>
 								</div>
 							</div>
 						)
@@ -298,16 +311,17 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft))
 
 			<section id="sec-about" class="snap-section">
 				<div class="container about-section">
-					<div class="about-header reveal">
-						<p class="hero-kicker">About</p>
-						<h2 class="section-heading">
-							Building things.<br />Writing about the rest.
-						</h2>
-					</div>
 					<div class="about-columns">
+						<div class="about-heading-col reveal">
+							<div class="about-accent-bar"></div>
+							<p class="about-kicker">About</p>
+							<h2 class="section-heading">
+								Building things.<br />Writing about the rest.
+							</h2>
+						</div>
 						<div
-							class="about-main reveal"
-							style="--reveal-delay: 0.1s"
+							class="about-content-col reveal"
+							style="--reveal-delay: 0.12s"
 						>
 							<p class="about-lead">
 								I'm an engineer who writes. My work lives at the
@@ -330,30 +344,6 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft))
 									sense of things under pressure.
 								</li>
 							</ul>
-						</div>
-						<div
-							class="about-aside reveal"
-							style="--reveal-delay: 0.2s"
-						>
-							<dl class="about-facts">
-								<div>
-									<dt>Role</dt>
-									<dd>Infrastructure engineer</dd>
-								</div>
-								<div>
-									<dt>Writing</dt>
-									<dd>
-										Essays on systems, people, and ideas
-									</dd>
-								</div>
-								<div>
-									<dt>Approach</dt>
-									<dd>
-										Calm systems, sharp focus, human-first
-										thinking
-									</dd>
-								</div>
-							</dl>
 							<div class="about-links-row">
 								<a
 									href={SITE_LINKEDIN_URL}
@@ -392,7 +382,47 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft))
 					.querySelectorAll(".reveal")
 					.forEach((el) => observer.observe(el));
 
-				/* Carousel */
+				/* Featured carousel */
+				var featuredTrack = document.getElementById("featured-track");
+				var featuredDotsEl = document.getElementById("featured-dots");
+				if (featuredTrack && featuredDotsEl) {
+					var featuredDots = Array.from(featuredDotsEl.querySelectorAll(".featured-dot"));
+					if (featuredDots.length >= 2) {
+						var currentF = 0;
+						var totalF = featuredDots.length;
+						var fMql = window.matchMedia("(max-width: 1024px)");
+
+						function goToFeatured(index) {
+							featuredDots[currentF].classList.remove("is-active");
+							featuredDots[currentF].setAttribute("aria-selected", "false");
+							currentF = ((index % totalF) + totalF) % totalF;
+							featuredDots[currentF].classList.add("is-active");
+							featuredDots[currentF].setAttribute("aria-selected", "true");
+							featuredTrack.style.transform = fMql.matches
+								? "translateX(-" + (currentF * 100) + "%)"
+								: "";
+						}
+
+						featuredDots.forEach(function (dot, i) {
+							dot.addEventListener("click", function () { goToFeatured(i); });
+						});
+
+						var fTouchStart = 0;
+						featuredTrack.addEventListener("touchstart", function (e) {
+							fTouchStart = e.touches[0].clientX;
+						}, { passive: true });
+						featuredTrack.addEventListener("touchend", function (e) {
+							var diff = fTouchStart - e.changedTouches[0].clientX;
+							if (Math.abs(diff) > 40) goToFeatured(diff > 0 ? currentF + 1 : currentF - 1);
+						}, { passive: true });
+
+						fMql.addEventListener("change", function () {
+							if (!fMql.matches) featuredTrack.style.transform = "";
+						});
+					}
+				}
+
+				/* Hero carousel */
 				const track = document.getElementById("carousel-track");
 				const dotsContainer = document.getElementById("carousel-dots");
 				if (!track || !dotsContainer) return;
