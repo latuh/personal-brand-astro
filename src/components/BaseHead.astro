@@ -34,6 +34,13 @@ const imageURL = new URL(image.src, Astro.url);
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<!-- Force HTTPS redirect -->
+<script is:inline>
+  if (location.protocol === 'http:') {
+    location.replace('https://' + location.hostname + location.pathname + location.search);
+  }
+</script>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="icon" href="/favicon.ico" />
 <link rel="sitemap" href="/sitemap-index.xml" />
