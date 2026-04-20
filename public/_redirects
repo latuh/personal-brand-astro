@@ -1,0 +1,6 @@
+# Redirect HTTP to HTTPS
+http://aaronmompie.com/* https://aaronmompie.com/:splat 301!
+http://www.aaronmompie.com/* https://aaronmompie.com/:splat 301!
+
+# Redirect www to apex (optional, but good for consistency)
+https://www.aaronmompie.com/* https://aaronmompie.com/:splat 301!
