@@ -3,16 +3,9 @@
   "compatibility_flags": ["global_fetch_strictly_public"],
   "name": "celestial-corot",
   "assets": {
-    "directory": "./dist",
-    "binding": "ASSETS"
+    "directory": "./dist"
   },
   "observability": {
     "enabled": true
-  },
-  "routes": [
-    {
-      "pattern": "aaronmompie.com",
-      "custom_domain": true
-    }
-  ]
+  }
 }
