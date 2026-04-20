@@ -5,15 +5,22 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 
+import cloudflare from '@astrojs/cloudflare';
+
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://aaronmompie.com',
-	prefetch: {
-		prefetchAll: true,
-		defaultStrategy: 'hover',
+  site: 'https://aaronmompie.com',
+
+  prefetch: {
+      prefetchAll: true,
+      defaultStrategy: 'hover',
 	},
-	integrations: [mdx(), sitemap()],
-	vite: {
-		plugins: [tailwindcss()],
+
+  integrations: [mdx(), sitemap()],
+
+  vite: {
+      plugins: [tailwindcss()],
 	},
+
+  adapter: cloudflare(),
 });
