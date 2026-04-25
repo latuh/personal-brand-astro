@@ -1,7 +1,6 @@
 ---
 import "../styles/global.css";
 import type { ImageMetadata } from "astro";
-import FallbackImage from "../assets/blog-placeholder-1.jpg";
 import { SITE_TITLE, SITE_TWITTER_HANDLE } from "../consts";
 
 interface Props {
@@ -19,7 +18,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const {
 	title,
 	description,
-	image = FallbackImage,
+	image,
 	imageAlt,
 	type = "website",
 	publishedTime,
@@ -27,7 +26,9 @@ const {
 } = Astro.props;
 
 const fullTitle = title === SITE_TITLE ? title : `${title} | ${SITE_TITLE}`;
-const imageURL = new URL(image.src, Astro.site ?? Astro.url);
+const imageURL = image
+	? new URL(image.src, Astro.site ?? Astro.url)
+	: new URL("/og-image.svg", Astro.site ?? Astro.url);
 const ogImageAlt = imageAlt ?? `${fullTitle} — ${description}`;
 ---
 
@@ -36,7 +37,6 @@ const ogImageAlt = imageAlt ?? `${fullTitle} — ${description}`;
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="icon" href="/favicon.ico" />
 <link rel="apple-touch-icon" href="/favicon.svg" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link
@@ -46,7 +46,7 @@ const ogImageAlt = imageAlt ?? `${fullTitle} — ${description}`;
 	href={new URL("rss.xml", Astro.site)}
 />
 <meta name="generator" content={Astro.generator} />
-<meta name="theme-color" content="#F6F4EF" />
+<meta name="theme-color" content="#E8351F" />
 
 <!-- Font preloads -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
