@@ -28,7 +28,7 @@ const {
 const fullTitle = title === SITE_TITLE ? title : `${title} | ${SITE_TITLE}`;
 const imageURL = image
 	? new URL(image.src, Astro.site ?? Astro.url)
-	: new URL("/og-image.svg", Astro.site ?? Astro.url);
+	: new URL("/og-image.png", Astro.site ?? Astro.url);
 const ogImageAlt = imageAlt ?? `${fullTitle} — ${description}`;
 ---
 
