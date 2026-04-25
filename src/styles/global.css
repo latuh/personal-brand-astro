@@ -1395,10 +1395,10 @@ p {
 .reveal-line {
 	display: block;
 	overflow: hidden;
-	padding-top: 0.12em;
-	margin-top: -0.12em;
-	padding-bottom: 0.14em;
-	margin-bottom: -0.14em;
+	padding-top: 0.25em;
+	margin-top: -0.25em;
+	padding-bottom: 0.25em;
+	margin-bottom: -0.25em;
 }
 
 .reveal-line-inner {
