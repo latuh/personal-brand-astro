@@ -2,116 +2,127 @@
 import BaseHead from "../components/BaseHead.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
-import { PROJECTS, SITE_TITLE, SITE_LINKEDIN_URL } from "../consts";
+import { PROJECTS, SITE_TITLE } from "../consts";
+
+const year = new Date().getFullYear();
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<BaseHead
-			title={`Projects — ${SITE_TITLE}`}
-			description="Selected projects in infrastructure, automation, and the systems behind the scenes."
+			title={`Work — ${SITE_TITLE}`}
+			description="Infrastructure, control planes, pipelines. The systems you're not supposed to notice."
 		/>
 	</head>
 	<body>
 		<a href="#main" class="sr-only skip-link">Skip to content</a>
 		<Header />
 		<main id="main" class="site-main">
-			<!-- Hero -->
-			<section class="proj-hero" aria-labelledby="proj-heading">
+			{/* Hero */}
+			<section class="section section-first">
 				<div class="container">
-					<h1
-						id="proj-heading"
-						class="proj-hero-title anim-fade-up"
-						style="--delay: 0.05s"
-					>
-						Selected Work
+					<span class="eyebrow anim-fade-up" style="--delay: 0.05s">
+						<span class="num">§ 00</span>Work · Madrid, {year}
+					</span>
+					<h1 class="display-mega" style="margin-top: 32px; max-width: 14ch;">
+						<span class="reveal-line">
+							<span class="reveal-line-inner" style="--line: 0; --delay: 0.1s">Work that</span>
+						</span>
+						<span class="reveal-line">
+							<span class="reveal-line-inner" style="--line: 1; --delay: 0.1s"><em>holds</em><span class="accent accent-pulse">.</span></span>
+						</span>
 					</h1>
-					<p
-						class="proj-hero-sub anim-fade-up"
-						style="--delay: 0.15s"
-					>
-						Infrastructure, automation, and the systems behind the
-						scenes.
-					</p>
+					<div class="hero-grid anim-fade-up" style="--delay: 0.5s">
+						<div class="hero-grid-serif">
+							Platforms, pipelines, control planes — the parts of a
+							stack that only show up when they break.
+						</div>
+						<div class="hero-grid-right">
+							<p class="lead">
+								A handful of things I've built and run. Some still
+								do. Some were meant to be boring, and stayed that
+								way.
+							</p>
+						</div>
+					</div>
 				</div>
 			</section>
 
-			<!-- Project entries -->
-			<section class="proj-list" aria-label="Projects">
+			{/* Work entries */}
+			<section class="section">
 				<div class="container">
-					{
-						PROJECTS.map((project, i) => (
+					<div class="section-header reveal">
+						<span class="eyebrow"><span class="num">§ 01</span>Selected work</span>
+						<span class="section-all-link is-static">
+							{PROJECTS.length} {PROJECTS.length === 1 ? "entry" : "entries"}
+						</span>
+					</div>
+					<div class="proj-list">
+						{PROJECTS.map((project, i) => (
 							<article
-								class:list={[
-									"proj-entry",
-									"reveal",
-									i % 2 !== 0 && "proj-entry--flip",
-								]}
+								class="proj-item reveal"
+								style={`--reveal-delay: ${0.05 + i * 0.08}s`}
 							>
-								<div class="proj-entry-inner">
-									<div class="proj-num-col">
-										<span class="proj-num" aria-hidden="true">
-											{String(i + 1).padStart(2, "0")}
-										</span>
+								<span class="proj-item-idx">
+									{String(i + 1).padStart(2, "0")} ―
+								</span>
+								<div class="proj-item-body">
+									<h2 class="proj-item-title">{project.title}</h2>
+									<div class="proj-item-role">{project.role}</div>
+									<p class="proj-item-desc">
+										{project.longDescription}
+									</p>
+									<div class="proj-item-stack">
+										{project.techStack.map((tech, idx) => (
+											<>
+												{idx > 0 && <span class="sep">·</span>}
+												<span>{tech.toLowerCase()}</span>
+											</>
+										))}
 									</div>
-
-									<div class="proj-content-col">
-										<h2 class="proj-title">{project.title}</h2>
-										<span class="proj-role">{project.role}</span>
-										<p class="proj-desc">
-											{project.longDescription}
-										</p>
-										<ul class="proj-stack" role="list">
-											{project.techStack.map((tech) => (
-												<li class="proj-tag">{tech}</li>
-											))}
-										</ul>
-										{project.url && (
-											<a
-												href={project.url}
-												class="proj-link"
-												target="_blank"
-												rel="noopener noreferrer"
-											>
-												View project &rarr;
-											</a>
-										)}
-										{project.github && (
-											<a
-												href={project.github}
-												class="proj-link"
-												target="_blank"
-												rel="noopener noreferrer"
-											>
-												Source &rarr;
-											</a>
-										)}
-									</div>
+									{(project.url || project.github) && (
+										<div class="proj-item-links">
+											{project.url && (
+												<a
+													href={project.url}
+													class="proj-item-link"
+													target="_blank"
+													rel="noreferrer"
+												>
+													View →
+												</a>
+											)}
+											{project.github && (
+												<a
+													href={project.github}
+													class="proj-item-link"
+													target="_blank"
+													rel="noreferrer"
+												>
+													Source →
+												</a>
+											)}
+										</div>
+									)}
 								</div>
-								{i < PROJECTS.length - 1 && <hr class="proj-rule" />}
+								<div class="proj-item-meta">
+									<span class="proj-item-status">
+										{project.url ? "Live" : "Running"}
+									</span>
+								</div>
 							</article>
-						))
-					}
+						))}
+					</div>
 				</div>
 			</section>
 
-			<!-- CTA -->
-			<section class="proj-cta reveal" aria-label="Get in touch">
-				<div class="container proj-cta-inner">
-					<span class="proj-cta-deco" aria-hidden="true"></span>
-					<h2 class="proj-cta-heading">Have a project in mind?</h2>
-					<p class="proj-cta-body">
-						I'm always open to interesting infrastructure challenges
-						and collaborative work.
-					</p>
-					<a
-						href={SITE_LINKEDIN_URL}
-						class="btn btn-primary"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						Let's connect
+			{/* Contact teaser */}
+			<section class="section">
+				<div class="container reveal" style="text-align: center">
+					<span class="eyebrow"><span class="num">§ 02</span>Contact</span>
+					<a href="mailto:hello@aaronmompie.com" class="contact-huge">
+						hello@aaronmompie.com<span class="caret" aria-hidden="true"></span>
 					</a>
 				</div>
 			</section>
@@ -140,337 +151,169 @@ import { PROJECTS, SITE_TITLE, SITE_LINKEDIN_URL } from "../consts";
 </html>
 
 <style>
-	/* ── Hero ────────────────────────────────────────── */
-	.proj-hero {
-		padding: 6rem 0 3rem;
-		text-align: center;
-		position: relative;
+	.section-all-link.is-static {
+		pointer-events: none;
+		color: var(--ink-4);
+	}
+	.section-all-link.is-static:hover {
+		color: var(--ink-4);
+		transform: none;
+	}
+	.section-all-link.is-static::after {
+		display: none;
 	}
 
-	.proj-hero-title {
-		font-family: "Instrument Serif", serif;
-		font-style: italic;
-		font-size: clamp(3.5rem, 8vw, 7rem);
-		line-height: 1.05;
-		letter-spacing: -0.02em;
-		color: var(--text);
-		margin: 0;
-	}
-
-	.proj-hero-sub {
-		font-family: "Archivo", sans-serif;
-		font-size: clamp(1rem, 1.8vw, 1.25rem);
-		color: var(--text-muted);
-		margin: 1rem 0 0;
-		font-weight: 400;
-	}
-
-	/* ── Project list ───────────────────────────────── */
 	.proj-list {
-		padding: 2rem 0 4rem;
+		display: flex;
+		flex-direction: column;
+		border-top: 1px solid var(--paper-3);
 	}
 
-	/* ── Entry ──────────────────────────────────────── */
-	.proj-entry {
-		padding: 4rem 0;
-		position: relative;
-	}
-
-	.proj-entry-inner {
+	.proj-item {
 		display: grid;
-		grid-template-columns: auto 1fr;
-		gap: 2.5rem;
+		grid-template-columns: 80px 1fr 120px;
+		gap: 40px;
+		padding: 72px 16px;
+		border-bottom: 1px solid var(--paper-3);
 		align-items: start;
+		transition: background var(--dur-base) var(--ease-standard);
 	}
 
-	/* Flip even entries: number moves to the right */
-	.proj-entry--flip .proj-entry-inner {
-		grid-template-columns: 1fr auto;
+	.proj-item:hover {
+		background: var(--paper-2);
 	}
 
-	.proj-entry--flip .proj-num-col {
-		order: 2;
-		text-align: right;
-	}
-
-	.proj-entry--flip .proj-content-col {
-		order: 1;
-		text-align: right;
-	}
-
-	.proj-entry--flip .proj-stack {
-		justify-content: flex-end;
-	}
-
-	.proj-entry--flip .proj-link {
-		margin-left: auto;
-	}
-
-	/* Hover accent line */
-	.proj-entry::before {
-		content: "";
-		position: absolute;
-		left: 0;
-		top: 4rem;
-		bottom: 0;
-		width: 3px;
-		background: var(--accent);
-		border-radius: 2px;
-		opacity: 0;
-		transform: scaleY(0.3);
-		transform-origin: top;
-		transition:
-			opacity 0.3s ease,
-			transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-	}
-
-	.proj-entry--flip::before {
-		left: auto;
-		right: 0;
-		transform-origin: top;
-	}
-
-	.proj-entry:hover::before {
-		opacity: 1;
-		transform: scaleY(1);
-	}
-
-	/* ── Number ─────────────────────────────────────── */
-	.proj-num {
-		font-family: "Instrument Serif", serif;
-		font-style: italic;
-		font-size: clamp(4rem, 6vw, 6rem);
-		line-height: 1;
-		color: var(--accent);
-		opacity: 0.15;
-		display: block;
-		transition: opacity 0.3s ease;
-		user-select: none;
-	}
-
-	.proj-entry:hover .proj-num {
-		opacity: 1;
-	}
-
-	/* ── Content ────────────────────────────────────── */
-	.proj-title {
-		font-family: "Archivo", sans-serif;
-		font-size: clamp(1.5rem, 2.5vw, 2rem);
-		font-weight: 700;
-		color: var(--text);
-		margin: 0 0 0.75rem;
-		padding-bottom: 0.75rem;
-		border-bottom: 2px solid var(--accent-soft);
-		line-height: 1.2;
-	}
-
-	.proj-role {
-		display: inline-block;
-		font-family: "Archivo", sans-serif;
-		font-size: 0.7rem;
-		font-weight: 600;
-		letter-spacing: 0.1em;
+	.proj-item-idx {
+		font-family: var(--font-condensed);
+		font-weight: 500;
+		font-size: 13px;
+		font-stretch: 75%;
+		letter-spacing: 0.2em;
 		text-transform: uppercase;
+		color: var(--ink-4);
+		padding-top: 14px;
+		transition: color var(--dur-base) var(--ease-standard);
+	}
+
+	.proj-item:hover .proj-item-idx {
 		color: var(--accent);
-		background: var(--accent-soft);
-		padding: 0.25rem 0.65rem;
-		border-radius: 999px;
-		margin-bottom: 1.25rem;
 	}
 
-	.proj-desc {
-		font-family: "Archivo", sans-serif;
-		font-size: 1rem;
-		line-height: 1.7;
-		color: var(--text-muted);
-		margin: 0 0 1.5rem;
-		max-width: 52ch;
+	.proj-item-body {
+		min-width: 0;
 	}
 
-	.proj-entry--flip .proj-desc {
-		margin-left: auto;
+	.proj-item-title {
+		font-family: var(--font-display);
+		font-weight: 900;
+		font-size: clamp(28px, 3.2vw, 44px);
+		line-height: 1.02;
+		letter-spacing: -0.02em;
+		color: var(--ink);
+		margin: 0;
+		transition: color var(--dur-base) var(--ease-standard);
 	}
 
-	/* ── Tech tags ──────────────────────────────────── */
-	.proj-stack {
+	.proj-item:hover .proj-item-title {
+		color: var(--accent);
+	}
+
+	.proj-item-role {
+		font-family: var(--font-serif);
+		font-weight: 400;
+		font-style: italic;
+		font-size: 20px;
+		line-height: 1.3;
+		color: var(--ink-3);
+		margin-top: 14px;
+	}
+
+	.proj-item-desc {
+		font-family: var(--font-sans);
+		font-size: 16px;
+		line-height: 1.65;
+		color: var(--ink-2);
+		margin: 32px 0 0;
+		max-width: 60ch;
+	}
+
+	.proj-item-stack {
+		margin-top: 32px;
+		font-family: var(--font-condensed);
+		font-size: 12px;
+		font-stretch: 75%;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--ink-4);
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.5rem;
-		list-style: none;
-		padding: 0;
-		margin: 0 0 1.5rem;
+		gap: 10px;
+		align-items: baseline;
 	}
 
-	.proj-tag {
-		font-family: "Archivo", sans-serif;
-		font-size: 0.75rem;
-		font-weight: 500;
-		letter-spacing: 0.04em;
-		color: var(--text-muted);
-		border: 1px solid var(--line-strong);
-		background: var(--panel-soft);
-		padding: 0.3rem 0.7rem;
-		border-radius: 0.35rem;
+	.proj-item-stack .sep {
+		color: var(--ink-5);
 	}
 
-	/* ── Project link ───────────────────────────────── */
-	.proj-link {
-		display: inline-block;
-		font-family: "Archivo", sans-serif;
-		font-size: 0.875rem;
-		font-weight: 600;
-		color: var(--accent);
+	.proj-item-links {
+		margin-top: 36px;
+		display: flex;
+		gap: 28px;
+	}
+
+	.proj-item-link {
+		font-family: var(--font-sans);
+		font-size: 14px;
+		color: var(--ink);
 		text-decoration: none;
-		letter-spacing: 0.02em;
-		transition: color 0.2s ease;
-	}
-
-	.proj-link:hover,
-	.proj-link:focus-visible {
-		color: var(--accent-hover);
-		text-decoration: underline;
-		text-underline-offset: 3px;
-	}
-
-	.proj-link:focus-visible {
-		outline: 2px solid var(--accent);
-		outline-offset: 3px;
-		border-radius: 2px;
-	}
-
-	/* ── Divider ────────────────────────────────────── */
-	.proj-rule {
-		border: none;
-		border-top: 1px solid var(--line);
-		margin: 0;
-	}
-
-	/* ── Reveal (scroll) ────────────────────────────── */
-	.proj-entry.reveal {
-		opacity: 0;
-		transform: translateY(2rem);
+		border-bottom: 1px solid var(--ink-4);
+		padding-bottom: 2px;
 		transition:
-			opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-			transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+			color var(--dur-base) var(--ease-standard),
+			border-color var(--dur-base) var(--ease-standard);
 	}
 
-	.proj-entry.reveal.is-visible {
-		opacity: 1;
-		transform: translateY(0);
+	.proj-item-link:hover {
+		color: var(--accent);
+		border-bottom-color: var(--accent);
 	}
 
-	.proj-cta.reveal {
-		opacity: 0;
-		transform: translateY(2rem);
-		transition:
-			opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-			transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+	.proj-item-meta {
+		text-align: right;
+		padding-top: 14px;
 	}
 
-	.proj-cta.reveal.is-visible {
-		opacity: 1;
-		transform: translateY(0);
+	.proj-item-status {
+		font-family: var(--font-condensed);
+		font-weight: 500;
+		font-size: 12px;
+		font-stretch: 75%;
+		letter-spacing: 0.22em;
+		text-transform: uppercase;
+		color: var(--ink-4);
 	}
 
-	/* ── CTA ────────────────────────────────────────── */
-	.proj-cta {
-		padding: 5rem 0 6rem;
-	}
-
-	.proj-cta-inner {
-		text-align: center;
-		position: relative;
-	}
-
-	.proj-cta-deco {
-		position: absolute;
-		top: -2.5rem;
-		left: 50%;
-		width: 60px;
-		height: 2px;
-		background: var(--accent);
-		transform: translateX(-50%) rotate(-12deg);
-		opacity: 0.4;
-	}
-
-	.proj-cta-heading {
-		font-family: "Instrument Serif", serif;
-		font-style: italic;
-		font-size: clamp(2rem, 4vw, 3rem);
-		color: var(--text);
-		margin: 0 0 0.75rem;
-	}
-
-	.proj-cta-body {
-		font-family: "Archivo", sans-serif;
-		font-size: 1.05rem;
-		color: var(--text-muted);
-		margin: 0 0 2rem;
-		line-height: 1.6;
-	}
-
-	/* ── Responsive ─────────────────────────────────── */
 	@media (max-width: 760px) {
-		.proj-hero {
-			padding: 4rem 0 2rem;
+		.proj-item {
+			grid-template-columns: 48px 1fr;
+			gap: 20px;
+			padding: 56px 12px;
 		}
 
-		.proj-entry {
-			padding: 2.5rem 0;
+		.proj-item-meta {
+			display: none;
 		}
 
-		.proj-entry-inner {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
+		.proj-item-title {
+			font-size: clamp(26px, 7vw, 34px);
 		}
 
-		/* Reset flip on mobile */
-		.proj-entry--flip .proj-num-col,
-		.proj-entry--flip .proj-content-col {
-			order: unset;
-			text-align: left;
+		.proj-item-role {
+			font-size: 17px;
 		}
 
-		.proj-entry--flip .proj-stack {
-			justify-content: flex-start;
-		}
-
-		.proj-entry--flip .proj-link {
-			margin-left: 0;
-		}
-
-		.proj-entry--flip .proj-desc {
-			margin-left: 0;
-		}
-
-		.proj-num {
-			font-size: 2.5rem;
-		}
-
-		/* Accent line always on left for mobile */
-		.proj-entry--flip::before {
-			left: 0;
-			right: auto;
-		}
-
-		.proj-cta {
-			padding: 3rem 0 4rem;
-		}
-	}
-
-	/* ── Reduced motion ─────────────────────────────── */
-	@media (prefers-reduced-motion: reduce) {
-		.proj-entry.reveal,
-		.proj-cta.reveal {
-			opacity: 1;
-			transform: none;
-			transition: none;
-		}
-
-		.proj-num,
-		.proj-entry::before {
-			transition: none;
+		.proj-item-idx {
+			padding-top: 10px;
 		}
 	}
 </style>

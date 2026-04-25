@@ -1,15 +1,19 @@
 ---
+import { getCollection } from "astro:content";
 import { SITE_TITLE, SITE_LINKEDIN_URL, SITE_X_URL, SITE_INSTAGRAM_URL } from "../consts";
 import HeaderLink from "./HeaderLink.astro";
+
+const publishedPosts = await getCollection("blog", ({ data }) => !data.draft);
+const hasWriting = publishedPosts.length > 0;
 ---
 
-<header class="site-header anim-fade-down" transition:persist>
+<header class="site-header anim-fade-down">
 	<nav class="nav-bar" aria-label="Primary">
 		<a href="/" class="brand-name">{SITE_TITLE}</a>
 		<div class="nav-links">
-			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/projects">Projects</HeaderLink>
-			<HeaderLink href="/blog">Writing</HeaderLink>
+			<HeaderLink href="/">Index</HeaderLink>
+			<HeaderLink href="/projects">Work</HeaderLink>
+			{hasWriting && <HeaderLink href="/blog">Writing</HeaderLink>}
 			<HeaderLink href="/about">About</HeaderLink>
 		</div>
 		<button
@@ -25,11 +29,11 @@ import HeaderLink from "./HeaderLink.astro";
 	</nav>
 </header>
 
-<div id="mobile-menu" class="mobile-menu" aria-hidden="true" transition:persist>
+<div id="mobile-menu" class="mobile-menu" aria-hidden="true">
 	<nav class="mobile-menu-nav" aria-label="Mobile navigation">
-		<a href="/" class="mobile-nav-link">Home</a>
-		<a href="/projects" class="mobile-nav-link">Projects</a>
-		<a href="/blog" class="mobile-nav-link">Writing</a>
+		<a href="/" class="mobile-nav-link">Index</a>
+		<a href="/projects" class="mobile-nav-link">Work</a>
+		{hasWriting && <a href="/blog" class="mobile-nav-link">Writing</a>}
 		<a href="/about" class="mobile-nav-link">About</a>
 	</nav>
 	<div class="mobile-menu-socials">
@@ -90,10 +94,5 @@ import HeaderLink from "./HeaderLink.astro";
 	}
 
 	updateActiveLinks();
-
-	document.addEventListener('astro:after-swap', function () {
-		closeMenu();
-		updateActiveLinks();
-	});
 })();
 </script>

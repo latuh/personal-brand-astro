@@ -24,40 +24,64 @@ export interface Project {
 
 export const PROJECTS: Project[] = [
 	{
-		title: 'Homelab Orchestration Platform',
+		title: 'Staff Planner AI',
 		description:
-			'Self-hosted infrastructure with automated provisioning and self-healing containers.',
+			'AI-assisted scheduling where the model parses intent and OR-Tools enforces the math.',
 		longDescription:
-			'A fully self-hosted homelab running Proxmox and Docker with automated provisioning via Ansible. Includes container orchestration with health checks, automatic restarts, and centralized monitoring — designed to stay up without babysitting.',
-		techStack: ['Proxmox', 'Docker', 'Ansible', 'Terraform', 'Bash'],
-		role: 'Architect & Operator',
+			'Weekly staff scheduling is a constraint problem. This app lets a manager describe rules in plain language — the AI parses intent, a Python OR-Tools solver enforces feasibility, and a React frontend handles the rest. Gemini or NVIDIA inference, PostgreSQL persistence, and an infeasibility diagnostic when the constraints can\'t be satisfied.',
+		techStack: ['React 19', 'Bun', 'TypeScript', 'Python', 'OR-Tools', 'PostgreSQL'],
+		role: 'Design & Engineering',
+		github: 'https://github.com/arrrnmp/staff-planner-ai',
 	},
 	{
-		title: 'Observability Pipeline',
+		title: 'Discord MCP Server',
 		description:
-			'Centralized logging and monitoring with real-time alerting and dashboards.',
+			'Your server\'s co-op. Every member, every channel, every action — one AI away.',
 		longDescription:
-			'A unified observability stack that aggregates metrics, logs, and traces across all services. Built on Prometheus and Grafana with Loki for log aggregation, providing real-time alerting and historical dashboards for infrastructure health.',
-		techStack: ['Prometheus', 'Grafana', 'Loki', 'Alertmanager', 'Docker'],
-		role: 'Infrastructure Engineer',
+			'Hand your AI the controls: member management, moderation, message handling, channel organisation across 80+ Discord API endpoints. Built with a guild allowlist and dry-run mode so everything runs reviewed and on-purpose. Making Discord servers has never been easier.',
+		techStack: ['TypeScript', 'Bun', 'MCP', 'Discord API'],
+		role: 'Systems Engineering',
+		github: 'https://github.com/arrrnmp/discord-mcp',
 	},
 	{
-		title: 'GitOps Deployment Engine',
+		title: 'Caynac: Caymann & Maniac',
 		description:
-			'Git-driven CI/CD pipeline with infrastructure-as-code and rollback capabilities.',
+			'Game repacking CLI tools with a React-powered TUI — 13 releases shipped.',
 		longDescription:
-			'An automated deployment pipeline where every infrastructure change flows through Git. Combines GitHub Actions with Terraform and Ansible to deliver repeatable, auditable deployments with one-command rollbacks when things go sideways.',
-		techStack: ['GitHub Actions', 'Terraform', 'Ansible', 'Docker', 'Bash'],
-		role: 'DevOps Engineer',
+			'A TypeScript monorepo of two tools for game repacking. The interface is built in Ink — React for the terminal — which means component-driven layout and declarative rendering in your shell. Thirteen releases in, still going.',
+		techStack: ['TypeScript', 'Bun', 'Ink', 'React'],
+		role: 'Tool Development',
+		github: 'https://github.com/arrrnmp/caynac',
 	},
 	{
-		title: 'Personal Site',
+		title: 'aPhone Mirroring',
 		description:
-			'Statically generated personal brand site with a blog powered by content collections.',
+			'Android on macOS, natively. The other side of the mirror.',
 		longDescription:
-			'This site — built with Astro 5 and Tailwind CSS 4. Uses MDX-powered content collections for the blog, scroll-snap layouts, view transitions, and an image carousel. Optimized for performance with zero client-side JavaScript where it isn\'t needed.',
-		techStack: ['Astro 5', 'Tailwind CSS 4', 'MDX', 'TypeScript'],
-		role: 'Design & Development',
-		url: 'https://aaronmompie.com',
+			'A native macOS app that mirrors Android screens and surfaces Messages, Calls, Photos, Contacts, and Notifications through a SwiftUI interface. The Android side is Kotlin; they communicate over a TCP JSON bridge using the scrcpy v3.3.4 protocol. Two native apps, one coherent experience.',
+		techStack: ['Swift', 'SwiftUI', 'Kotlin', 'scrcpy', 'TCP'],
+		role: 'Native Engineering',
+		github: 'https://github.com/arrrnmp/aphone-mirroring',
+	},
+	{
+		title: 'Dispatch',
+		description:
+			'AI-researched daily briefings delivered every morning — be the most interesting one in the standup.',
+		longDescription:
+			'A Claude Routine that runs every morning before work: researches the past day\'s news, organises it by category, and pushes a fresh MDX file to the repo. Built to learn how Claude Code Cloud Routines work; turned out to be genuinely useful.',
+		techStack: ['Claude Code', 'Cloud Routines', 'MDX', 'Astro'],
+		role: 'Automation & Research',
+		url: 'https://dispatch.aaronmompie.com',
+		github: 'https://github.com/arrrnmp/dispatch',
+	},
+	{
+		title: 'Personal Assistant',
+		description:
+			'A local-first macOS menu bar AI, connected to your own model, not someone else\'s.',
+		longDescription:
+			'A SwiftUI menu bar app that connects to LM Studio over an OpenAI-compatible API with streaming responses and MCP tool support. Everything runs on your machine. No telemetry, no subscription, no cloud dependency.',
+		techStack: ['Swift', 'SwiftUI', 'LM Studio', 'MCP'],
+		role: 'Native Engineering',
+		github: 'https://github.com/arrrnmp/personal-assistant',
 	},
 ];
