@@ -17,7 +17,7 @@
 	--ink: #0b0b0a;
 	--ink-2: #1c1b19;
 	--ink-3: #55534e;
-	--ink-4: #8b8880;
+	--ink-4: #6e6b65;
 	--ink-5: #b8b4ab;
 
 	/* Accent — deep ember red */
@@ -233,7 +233,7 @@ p {
 	font-family: var(--font-display);
 	font-weight: 900;
 	font-style: italic;
-	font-size: clamp(72px, 13vw, 200px);
+	font-size: clamp(40px, 13vw, 200px);
 	line-height: 0.88;
 	letter-spacing: -0.04em;
 	color: var(--ink);
@@ -393,6 +393,13 @@ p {
 	backdrop-filter: blur(10px);
 	-webkit-backdrop-filter: blur(10px);
 	border-bottom: 1px solid var(--ink);
+	transition: background var(--dur-base) var(--ease-standard);
+}
+
+.site-header.menu-open {
+	background: var(--paper);
+	backdrop-filter: none;
+	-webkit-backdrop-filter: none;
 }
 
 .nav-bar {
@@ -530,7 +537,7 @@ p {
 	background: var(--paper);
 	z-index: 49;
 	flex-direction: column;
-	overflow-y: auto;
+	overflow: hidden;
 	display: none;
 }
 
@@ -567,12 +574,36 @@ p {
 	color: var(--accent);
 }
 
+.mobile-menu-email {
+	display: block;
+	text-align: center;
+	margin-top: auto;
+	padding: 0 1.5rem 1.25rem;
+	font-family: var(--font-sans);
+	font-weight: 400;
+	font-size: 0.875rem;
+	letter-spacing: 0.02em;
+	color: var(--ink-3);
+	text-decoration: none;
+	transition: color var(--dur-base) var(--ease-standard);
+}
+
+.mobile-menu-email:hover {
+	color: var(--ink);
+}
+
+.mobile-menu-footer {
+	border-top: 1px solid var(--ink);
+	padding: 0.875rem 1.5rem;
+	display: flex;
+	flex-direction: column;
+}
+
 .mobile-menu-socials {
 	display: flex;
-	gap: 1.5rem;
-	padding: 1.25rem 1.5rem;
-	border-top: 1px solid var(--ink);
-	margin-top: auto;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: nowrap;
 }
 
 .mobile-menu-socials a {
@@ -596,7 +627,8 @@ p {
 }
 
 .mobile-menu.is-open .mobile-nav-link,
-.mobile-menu.is-open .mobile-menu-socials {
+.mobile-menu.is-open .mobile-menu-email,
+.mobile-menu.is-open .mobile-menu-footer {
 	opacity: 0;
 	animation: mobileMenuLinkIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
@@ -605,7 +637,8 @@ p {
 .mobile-menu.is-open .mobile-nav-link:nth-child(2) { animation-delay: 0.11s; }
 .mobile-menu.is-open .mobile-nav-link:nth-child(3) { animation-delay: 0.17s; }
 .mobile-menu.is-open .mobile-nav-link:nth-child(4) { animation-delay: 0.23s; }
-.mobile-menu.is-open .mobile-menu-socials { animation-delay: 0.29s; }
+.mobile-menu.is-open .mobile-menu-email { animation-delay: 0.29s; }
+.mobile-menu.is-open .mobile-menu-footer { animation-delay: 0.35s; }
 
 /* -- Footer -------------------------------------------------- */
 
@@ -982,19 +1015,22 @@ p {
 
 .contact-huge {
 	display: block;
+	width: fit-content;
+	max-width: 100%;
 	margin-top: 24px;
+	margin-inline: auto;
 	text-decoration: none;
 	border-bottom: 4px solid var(--ink);
 	padding-bottom: 8px;
 	font-family: var(--font-display);
 	font-weight: 900;
 	font-style: italic;
-	font-size: clamp(32px, 5vw, 72px);
+	font-size: clamp(1.25rem, 6.5vw, 4.75rem);
 	letter-spacing: -0.03em;
 	line-height: 1;
 	color: var(--ink);
-	overflow: hidden;
 	white-space: nowrap;
+	overflow: hidden;
 	text-overflow: ellipsis;
 	transition:
 		color var(--dur-base) var(--ease-standard),
@@ -1376,7 +1412,7 @@ p {
 }
 
 @keyframes lineReveal {
-	from { transform: translateY(110%); }
+	from { transform: translateY(130%); }
 	to { transform: translateY(0); }
 }
 
@@ -1393,20 +1429,45 @@ p {
 /* Line-by-line editorial reveal. Wrap each line of a heading
    in .reveal-line; wrap its inner content in .reveal-line-inner. */
 .reveal-line {
-	display: block;
-	overflow: hidden;
-	padding-top: 0.25em;
-	margin-top: -0.25em;
-	padding-bottom: 0.25em;
-	margin-bottom: -0.25em;
+  display: block;
+  overflow: hidden;
+  padding-top: 0.12em;
+  margin-top: -0.12em;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
 }
 
 .reveal-line-inner {
 	display: inline-block;
-	transform: translateY(110%);
+	transform: translateY(130%);
 	animation: lineReveal 0.95s cubic-bezier(0.2, 0.68, 0.2, 1) forwards;
 	animation-delay: calc(var(--line, 0) * 120ms + var(--delay, 0s));
+	animation-play-state: paused;
 	will-change: transform;
+}
+
+html.fonts-loaded .reveal-line-inner {
+	animation-play-state: running;
+}
+
+/* Skip entrance animations on revisited pages */
+html.has-visited .reveal-line-inner {
+	animation: none !important;
+	transform: none !important;
+}
+
+html.has-visited .anim-fade-up,
+html.has-visited .anim-fade-down,
+html.has-visited .anim-slide-right {
+	animation: none !important;
+	opacity: 1 !important;
+	transform: none !important;
+}
+
+html.has-visited .reveal {
+	opacity: 1 !important;
+	transform: none !important;
+	transition: none !important;
 }
 
 
@@ -1481,6 +1542,7 @@ p {
 	.hero-grid {
 		grid-template-columns: 1fr;
 		gap: 28px;
+		margin-top: 32px;
 	}
 	.now-grid {
 		grid-template-columns: 1fr;
@@ -1530,10 +1592,7 @@ p {
 	}
 
 	.contact-huge {
-		font-size: clamp(24px, 7vw, 40px);
-		white-space: normal;
-		word-break: break-all;
-		text-overflow: clip;
+		border-bottom-width: 2px;
 	}
 
 	.irow {
@@ -1572,7 +1631,7 @@ p {
 	.caret,
 	.mobile-menu.is-open,
 	.mobile-menu.is-open .mobile-nav-link,
-	.mobile-menu.is-open .mobile-menu-socials {
+	.mobile-menu.is-open .mobile-menu-footer {
 		opacity: 1 !important;
 		transform: none !important;
 		animation: none !important;

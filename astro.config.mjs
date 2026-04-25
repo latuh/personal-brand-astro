@@ -18,11 +18,18 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    css: {
+      transformer: 'lightningcss',
+    },
+    build: {
+      cssMinify: 'lightningcss',
+    },
   },
 
   output: 'static',
 
   build: {
     assets: 'assets',
+    inlineStylesheets: 'always',
   },
 });
