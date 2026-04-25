@@ -7,7 +7,7 @@ const publishedPosts = await getCollection("blog", ({ data }) => !data.draft);
 const hasWriting = publishedPosts.length > 0;
 ---
 
-<header class="site-header anim-fade-down">
+<header class="site-header anim-fade-down" transition:persist>
 	<nav class="nav-bar" aria-label="Primary">
 		<a href="/" class="brand-name">{SITE_TITLE}</a>
 		<div class="nav-links">
@@ -29,17 +29,20 @@ const hasWriting = publishedPosts.length > 0;
 	</nav>
 </header>
 
-<div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+<div id="mobile-menu" class="mobile-menu" aria-hidden="true" transition:persist>
 	<nav class="mobile-menu-nav" aria-label="Mobile navigation">
 		<a href="/" class="mobile-nav-link">Index</a>
 		<a href="/projects" class="mobile-nav-link">Work</a>
 		{hasWriting && <a href="/blog" class="mobile-nav-link">Writing</a>}
 		<a href="/about" class="mobile-nav-link">About</a>
 	</nav>
-	<div class="mobile-menu-socials">
-		<a href={SITE_LINKEDIN_URL} rel="noreferrer" target="_blank">LinkedIn</a>
-		<a href={SITE_X_URL} rel="noreferrer" target="_blank">X / Twitter</a>
-		<a href={SITE_INSTAGRAM_URL} rel="noreferrer" target="_blank">Instagram</a>
+	<a href="mailto:hello@aaronmompie.com" class="mobile-menu-email">hello@aaronmompie.com</a>
+	<div class="mobile-menu-footer">
+		<div class="mobile-menu-socials">
+			<a href={SITE_LINKEDIN_URL} rel="noreferrer" target="_blank">LinkedIn</a>
+			<a href={SITE_X_URL} rel="noreferrer" target="_blank">X</a>
+			<a href={SITE_INSTAGRAM_URL} rel="noreferrer" target="_blank">Instagram</a>
+		</div>
 	</div>
 </div>
 
@@ -52,6 +55,15 @@ const hasWriting = publishedPosts.length > 0;
 
 	function updateActiveLinks() {
 		var current = normalizePath(window.location.pathname);
+		document.querySelectorAll('.nav-link').forEach(function (link) {
+			var target = normalizePath(link.getAttribute('href'));
+			var active = target === '/'
+				? current === '/'
+				: current === target || current.startsWith(target + '/');
+			link.classList.toggle('active', active);
+			if (active) link.setAttribute('aria-current', 'page');
+			else link.removeAttribute('aria-current');
+		});
 		document.querySelectorAll('.mobile-nav-link').forEach(function (link) {
 			var target = normalizePath(link.getAttribute('href'));
 			var active = target === '/'
@@ -64,6 +76,7 @@ const hasWriting = publishedPosts.length > 0;
 	function closeMenu() {
 		var btn = document.querySelector('.nav-hamburger');
 		var menu = document.getElementById('mobile-menu');
+		var header = document.querySelector('.site-header');
 		if (btn) {
 			btn.setAttribute('aria-expanded', 'false');
 			btn.setAttribute('aria-label', 'Open navigation menu');
@@ -72,11 +85,12 @@ const hasWriting = publishedPosts.length > 0;
 			menu.classList.remove('is-open');
 			menu.setAttribute('aria-hidden', 'true');
 		}
-		document.body.style.overflow = '';
+		if (header) header.classList.remove('menu-open');
 	}
 
 	var btn = document.querySelector('.nav-hamburger');
 	var menu = document.getElementById('mobile-menu');
+	var header = document.querySelector('.site-header');
 
 	if (btn && menu) {
 		btn.addEventListener('click', function () {
@@ -88,11 +102,14 @@ const hasWriting = publishedPosts.length > 0;
 				btn.setAttribute('aria-label', 'Close navigation menu');
 				menu.classList.add('is-open');
 				menu.removeAttribute('aria-hidden');
-				document.body.style.overflow = 'hidden';
+				if (header) header.classList.add('menu-open');
 			}
 		});
 	}
 
 	updateActiveLinks();
+
+	document.addEventListener('astro:page-load', updateActiveLinks);
+	document.addEventListener('astro:before-swap', closeMenu);
 })();
 </script>
