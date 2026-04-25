@@ -1,17 +1,34 @@
 ---
 const today = new Date();
+import {
+	SITE_LINKEDIN_URL,
+	SITE_X_URL,
+	SITE_INSTAGRAM_URL,
+} from "../consts";
 ---
 
 <footer class="site-footer">
-	<div class="container footer-inner">
-		<p>
-			&copy; {today.getFullYear()} Aaron Mompié. Built for durable systems and
-			thoughtful writing.
-		</p>
-		<div class="footer-links">
-			<a href="/blog">Writing</a>
-			<a href="/about">About</a>
-			<a href="/rss.xml" aria-label="RSS feed">RSS</a>
+	<div class="footer-inner">
+		<div class="footer-col-left">
+			<span class="eyebrow">Madrid · {today.getFullYear()}</span>
+			<div class="footer-line">
+				Aaron Mompié. Systems engineer.
+			</div>
+		</div>
+		<div class="footer-col-center footer-quote">
+			write me, if you like.
+		</div>
+		<div class="footer-col-right">
+			<span class="eyebrow">Elsewhere</span>
+			<div class="footer-line footer-links">
+				<a href={SITE_LINKEDIN_URL} rel="noreferrer" target="_blank">linkedin</a>
+				<span class="sep">·</span>
+				<a href={SITE_X_URL} rel="noreferrer" target="_blank">x</a>
+				<span class="sep">·</span>
+				<a href={SITE_INSTAGRAM_URL} rel="noreferrer" target="_blank">instagram</a>
+				<span class="sep">·</span>
+				<a href="/rss.xml" aria-label="RSS feed">rss</a>
+			</div>
 		</div>
 	</div>
 </footer>

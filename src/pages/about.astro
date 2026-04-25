@@ -1,39 +1,349 @@
 ---
-import AboutHeroImage from "../assets/blog-placeholder-about.jpg";
-import Layout from "../layouts/Page.astro";
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_LINKEDIN_URL, SITE_X_URL, SITE_INSTAGRAM_URL } from "../consts";
+
+const year = new Date().getFullYear();
+
+const personJsonLd = JSON.stringify({
+	"@context": "https://schema.org",
+	"@type": "Person",
+	name: SITE_TITLE,
+	url: "https://aaronmompie.com",
+	description: SITE_DESCRIPTION,
+	jobTitle: "Engineer",
+	address: { "@type": "PostalAddress", addressLocality: "Madrid", addressCountry: "ES" },
+	sameAs: [SITE_LINKEDIN_URL, SITE_X_URL, SITE_INSTAGRAM_URL],
+	knowsAbout: ["Systems Engineering", "Infrastructure", "TypeScript", "Swift", "Python", "Writing"],
+});
 ---
 
-<Layout
-	title="About"
-	description="Infrastructure engineer and writer focused on resilient systems and practical thinking."
-	heroImage={AboutHeroImage}
->
-	<p>
-		I work at the intersection of platform reliability and long-form
-		writing. Most of my engineering effort goes into reducing operational
-		fragility, while my writing translates those lessons into ideas other
-		builders can use.
-	</p>
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title={`About — ${SITE_TITLE}`}
+			description="Madrid born and raised. Engineer and writer. Building things that close the gap between people and what they need."
+		/>
+		<script type="application/ld+json" set:html={personJsonLd} />
+	</head>
+	<body>
+		<a href="#main" class="sr-only skip-link">Skip to content</a>
+		<Header />
+		<main id="main" class="site-main">
 
-	<p>
-		My favorite projects are the ones where architecture and behavior
-		reinforce each other: clear systems, explicit trade-offs, and habits
-		that keep teams steady when pressure rises.
-	</p>
+			{/* Hero */}
+			<section class="section section-first">
+				<div class="container">
+					<span class="eyebrow anim-fade-up" style="--delay: 0.05s">
+						<span class="num">§ 00</span>About · Madrid, {year}
+					</span>
+					<h1 class="display-mega" style="margin-top: 32px; max-width: 14ch;">
+						<span class="reveal-line">
+							<span class="reveal-line-inner" style="--line: 0; --delay: 0.1s">Made in</span>
+						</span>
+						<span class="reveal-line">
+							<span class="reveal-line-inner" style="--line: 1; --delay: 0.1s"><em>Madrid</em><span class="accent accent-pulse">.</span></span>
+						</span>
+					</h1>
+					<div class="hero-grid anim-fade-up" style="--delay: 0.5s">
+						<div class="hero-grid-serif">
+							Six years old, and already more interested in how the
+							server worked than what was running on top of it.
+						</div>
+						<div class="hero-grid-right">
+							<p class="lead">
+								Engineer and writer. ADHD, Asperger's, gifted.
+								Building things that close the gap between people
+								and what they need.
+							</p>
+						</div>
+					</div>
+				</div>
+			</section>
 
-	<h2>How I work</h2>
-	<ul class="about-list">
-		<li>Design for recovery paths first, then optimize for speed.</li>
-		<li>Prefer measurable reliability gains over abstract complexity.</li>
-		<li>
-			Document decisions in public so the next iteration starts stronger.
-		</li>
-	</ul>
+			{/* Origin + Now */}
+			<section class="section">
+				<div class="container">
+					<div class="about-grid reveal">
+						<div class="about-block">
+							<span class="eyebrow about-block-eyebrow">
+								<span class="num">§ 01</span>Origin
+							</span>
+							<div class="about-prose">
+								<p>
+									The website came first, at six. Then Minecraft plugins at
+									eight — Java, which I hated, but it was the first time I
+									cared more about how the server worked than what I was
+									building on top of it. The systems instinct was already
+									there before I had a name for it. By thirteen: TypeScript
+									and Discord bots. By the time I was a teenager I'd reached
+									most of the technical foundations I still carry.
+								</p>
+								<p>
+									The CFGM in Microcomputer Systems and Networks
+									(Sep 2024 – Jun 2026) is the formal credential.
+									More paper trail than origin story.
+								</p>
+								<p>
+									Then burnout hit. A hard stop.
+								</p>
+								<p>
+									The homelab brought me back — started it in May 2025.
+									Fixing real errors on real machines, with actual
+									consequences, fixed something in me too. It still does.
+								</p>
+							</div>
+						</div>
 
-	<h2>Outside the terminal</h2>
-	<p>
-		I am building a library of essays on resilience in infrastructure and in
-		life. If you care about systems that stay useful under stress, you are
-		in the right place.
-	</p>
-</Layout>
+						<div class="about-block">
+							<span class="eyebrow about-block-eyebrow">
+								<span class="num">§ 02</span>Now
+							</span>
+							<div class="about-prose">
+								<p>
+									Practice hours at <a href="https://abalun.com" target="_blank" rel="noreferrer">Abalun</a> — technically not employed, but
+									pulled into real work fast enough that the line blurs.
+									Good colleagues, real problems, a rhythm that doesn't
+									grind. What it's mostly done is kill the impostor
+									syndrome. Not therapy, not a book — just being thrown at
+									actual problems and realising I could handle them. Turns
+									out the impostor was the lie, not me.
+								</p>
+								<p>
+									Outside that: building independently, when my ADHD lands
+									somewhere. Not always on a schedule. But when it hits,
+									it hits hard.
+								</p>
+								<p>
+									Running most mornings. Madrid, for now.
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* The thread */}
+			<section class="section section-sunken">
+				<div class="container">
+					<div class="about-thread reveal">
+						<span class="eyebrow about-block-eyebrow">
+							<span class="num">§ 03</span>The thread
+						</span>
+						<blockquote class="about-conviction">
+							The distance between people and what they need — information,
+							calm, clarity, each other — is always smaller than it looks.
+							Almost always a design problem.
+						</blockquote>
+						<div class="about-thread-body reveal" style="--reveal-delay: 0.1s">
+							<p>
+								A Staff Planner AI so the person running a team can stop
+								carrying that weight in their head.
+							</p>
+							<p>
+								A Discord MCP Server so an AI can show up where your
+								people already are.
+							</p>
+							<p>
+								Caynac and Maniac so a file, a song, something you wanted
+								to share, actually gets there — regardless of what tools
+								the other person has.
+							</p>
+							<p>
+								aPhone Mirroring so your own device stops gatekeeping
+								your own life.
+							</p>
+							<p>
+								Dispatch so the world doesn't require you to go looking
+								for it every morning.
+							</p>
+							<p>
+								A Personal Assistant that runs on your machine, answers
+								to you, and doesn't send anything anywhere.
+							</p>
+							<p>
+								I build to close that gap. The dramatic arts draw me for the
+								same reason: theatre doesn't create emotion — it removes the
+								obstacle to it. Same work, different tools.
+							</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* Writing */}
+			<section class="section">
+				<div class="container">
+					<div class="about-grid reveal">
+						<div class="about-block">
+							<span class="eyebrow about-block-eyebrow">
+								<span class="num">§ 04</span>Writing
+							</span>
+							<div class="about-prose">
+								<p>
+									Writing isn't a creative ambition I'm working toward.
+									It's how I think. I'm the kind of person who types out
+									three paragraphs to understand what a single sentence is
+									actually saying.
+								</p>
+								<p>
+									I want to write about whatever I'm currently trying to
+									understand: systems architecture and why certain decisions
+									feel inevitable in hindsight. Neurodivergence — not the
+									clinical version, the lived one. The moments where a
+									technical problem turns out to be an emotional one in
+									disguise. The load-bearing parts of a person that don't
+									show up in a résumé or a GitHub profile.
+								</p>
+								<p>
+									I don't write to have an audience. But if someone reads
+									it and feels less alone in whatever they've been running
+									quietly — that's the whole point.
+								</p>
+							</div>
+						</div>
+
+						<div class="about-block">
+							<span class="eyebrow about-block-eyebrow">
+								<span class="num">§ 05</span>Madrid
+							</span>
+							<div class="about-prose">
+								<p>
+									Home in the truest sense — not the place I ended up, but
+									the place that made me. The people I love most, I met
+									here. The streets have context. The city has weight.
+								</p>
+								<p>
+									But I've started to feel the edges. Not the city itself —
+									Madrid I could defend to anyone. Something in the rhythms,
+									the assumptions, the way certain things are just accepted
+									as given.
+								</p>
+								<p>
+									So yes, home. And yes, probably a chapter. Not because
+									I'm running from anything — because I think I owe it to
+									myself to find out what happens when I leave.
+									Where? I don't know yet. I'll know it when I get there.
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* Contact */}
+			<section class="section">
+				<div class="container reveal" style="text-align: center">
+					<span class="eyebrow"><span class="num">§ 06</span>Contact</span>
+					<a href="mailto:hello@aaronmompie.com" class="contact-huge">
+						hello@aaronmompie.com<span class="caret" aria-hidden="true"></span>
+					</a>
+				</div>
+			</section>
+
+		</main>
+		<Footer />
+
+		<script is:inline>
+			(function () {
+				const observer = new IntersectionObserver(
+					(entries) => {
+						entries.forEach((entry) => {
+							if (entry.isIntersecting) {
+								entry.target.classList.add("is-visible");
+								observer.unobserve(entry.target);
+							}
+						});
+					},
+					{ threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+				);
+				document
+					.querySelectorAll(".reveal")
+					.forEach((el) => observer.observe(el));
+			})();
+		</script>
+	</body>
+</html>
+
+<style>
+	.about-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 80px;
+		align-items: start;
+	}
+
+	.about-block-eyebrow {
+		display: block;
+		margin-bottom: 32px;
+	}
+
+	.about-prose p {
+		font-family: var(--font-sans);
+		font-size: 17px;
+		line-height: 1.7;
+		color: var(--ink-2);
+		margin: 0 0 20px;
+		max-width: 52ch;
+	}
+
+	.about-prose p:last-child {
+		margin-bottom: 0;
+	}
+
+	.about-prose em {
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-weight: 400;
+		color: var(--ink);
+	}
+
+	/* Thread section */
+	.about-thread {
+		max-width: 800px;
+	}
+
+	.about-conviction {
+		font-family: var(--font-display);
+		font-weight: 900;
+		font-size: clamp(24px, 2.8vw, 40px);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		color: var(--ink);
+		margin: 32px 0 40px;
+		padding: 0;
+		border: none;
+	}
+
+	.about-thread-body p {
+		font-family: var(--font-sans);
+		font-size: 17px;
+		line-height: 1.7;
+		color: var(--ink-2);
+		margin: 0 0 20px;
+		max-width: 64ch;
+	}
+
+	.about-thread-body p:last-child {
+		margin-bottom: 0;
+	}
+
+	@media (max-width: 760px) {
+		.about-grid {
+			grid-template-columns: 1fr;
+			gap: 56px;
+		}
+
+		.about-conviction {
+			font-size: clamp(22px, 5.5vw, 32px);
+		}
+
+		.about-prose p,
+		.about-thread-body p {
+			max-width: none;
+			font-size: 16px;
+		}
+	}
+</style>

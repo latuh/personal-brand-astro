@@ -1,9 +1,7 @@
 ---
-import { Picture } from "astro:assets";
 import { getCollection } from "astro:content";
 import BaseHead from "../../components/BaseHead.astro";
 import Footer from "../../components/Footer.astro";
-import FormattedDate from "../../components/FormattedDate.astro";
 import Header from "../../components/Header.astro";
 import { SITE_TITLE } from "../../consts";
 import { getReadingTime } from "../../utils/reading-time";
@@ -11,74 +9,166 @@ import { getReadingTime } from "../../utils/reading-time";
 const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+const year = new Date().getFullYear();
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<BaseHead
-			title={`${SITE_TITLE} | Writing`}
-			description="Essays and field notes about resilient infrastructure, failure handling, and staying useful when systems are under load."
+			title={`Writing — ${SITE_TITLE}`}
+			description="Essays and notes on systems, software, and the rest."
 		/>
 	</head>
 	<body>
 		<a href="#main" class="sr-only skip-link">Skip to content</a>
 		<Header />
 		<main id="main" class="site-main">
-			<section class="section page-hero">
+
+			{/* Hero */}
+			<section class="section section-first">
 				<div class="container">
-					<h1>Writing archive</h1>
-					<p>
-						Essays and field notes about resilient infrastructure,
-						failure handling, and staying useful when systems are
-						under load.
-					</p>
+					<span class="eyebrow anim-fade-up" style="--delay: 0.05s">
+						<span class="num">§ 00</span>Writing · Madrid, {year}
+					</span>
+					<h1 class="display-mega" style="margin-top: 32px; max-width: 16ch;">
+						<span class="reveal-line">
+							<span class="reveal-line-inner" style="--line: 0; --delay: 0.1s">Words on</span>
+						</span>
+						<span class="reveal-line">
+							<span class="reveal-line-inner" style="--line: 1; --delay: 0.1s">the <em>work</em><span class="accent accent-pulse">.</span></span>
+						</span>
+					</h1>
+					<div class="hero-grid anim-fade-up" style="--delay: 0.5s">
+						<div class="hero-grid-serif">
+							Systems do most of the talking. These are the notes
+							left behind.
+						</div>
+						<div class="hero-grid-right">
+							<p class="lead">
+								{posts.length} {posts.length === 1 ? "essay" : "essays"} so far.
+								On infrastructure, tools, and whatever else
+								refuses to leave quietly.
+							</p>
+						</div>
+					</div>
 				</div>
 			</section>
 
+			{/* Archive */}
+			{posts.length > 0 && (
+				<section class="section">
+					<div class="container">
+						<div class="section-header reveal">
+							<span class="eyebrow"><span class="num">§ 01</span>Archive</span>
+						</div>
+						<div class="irow-list">
+							{posts.map((post, i) => (
+								<a
+									href={`/blog/${post.id}/`}
+									class="irow reveal"
+									style={`--reveal-delay: ${0.05 + i * 0.06}s`}
+								>
+									<span class="irow-idx">{String(i + 1).padStart(2, "0")} ―</span>
+									<span>
+										<span class="irow-title">{post.data.title}</span>
+										{post.data.description && (
+											<span class="irow-subtitle" style="display:block">
+												{post.data.description}
+											</span>
+										)}
+										{post.data.tags && post.data.tags.length > 0 && (
+											<span class="writing-tags">
+												{post.data.tags.map((tag) => (
+													<span class="writing-tag">{tag}</span>
+												))}
+											</span>
+										)}
+									</span>
+									<span class="irow-meta">
+										{post.data.pubDate.toLocaleDateString("en-US", { month: "short", year: "numeric" })}
+										<span class="irow-reading">{getReadingTime(post.body ?? "")} min</span>
+									</span>
+									<span class="irow-arrow">→</span>
+								</a>
+							))}
+						</div>
+					</div>
+				</section>
+			)}
+
+			{posts.length === 0 && (
+				<section class="section">
+					<div class="container reveal" style="text-align: center; padding: 80px 0">
+						<span class="eyebrow"><span class="num">§ 01</span>Archive</span>
+						<p class="lead" style="margin-top: 24px; color: var(--ink-3)">Nothing published yet. Check back soon.</p>
+					</div>
+				</section>
+			)}
+
+			{/* Contact teaser */}
 			<section class="section">
-				<div class="container post-list-grid">
-					{
-						posts.map((post) => (
-							<div class="post-list-item surface-soft">
-								{post.data.heroImage && (
-									<a href={'/blog/' + post.id + '/'} class="post-list-media">
-										<Picture
-											width={720}
-											height={400}
-											src={post.data.heroImage}
-											alt={post.data.title}
-											formats={["avif", "webp"]}
-											sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 720px"
-											transition:name={'post-image-' + post.id}
-										/>
-									</a>
-								)}
-								<div class="post-list-content">
-									<a href={'/blog/' + post.id + '/'} class="post-list-link">
-										<p class="post-list-meta">
-											<FormattedDate
-												date={post.data.pubDate}
-											/>
-											· {getReadingTime(post.body ?? "")} min read
-										</p>
-										<h2>{post.data.title}</h2>
-										<p>{post.data.description}</p>
-									</a>
-									{post.data.tags.length > 0 && (
-										<div class="post-list-tags">
-											{post.data.tags.map((tag) => (
-												<a href={'/blog/tag/' + tag + '/'} class="tag-pill">{tag}</a>
-											))}
-										</div>
-									)}
-								</div>
-							</div>
-						))
-					}
+				<div class="container reveal" style="text-align: center">
+					<span class="eyebrow"><span class="num">§ 02</span>Contact</span>
+					<a href="mailto:hello@aaronmompie.com" class="contact-huge">
+						hello@aaronmompie.com<span class="caret" aria-hidden="true"></span>
+					</a>
 				</div>
 			</section>
+
 		</main>
 		<Footer />
+
+		<script is:inline>
+			(function () {
+				const observer = new IntersectionObserver(
+					(entries) => {
+						entries.forEach((entry) => {
+							if (entry.isIntersecting) {
+								entry.target.classList.add("is-visible");
+								observer.unobserve(entry.target);
+							}
+						});
+					},
+					{ threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
+				);
+				document
+					.querySelectorAll(".reveal")
+					.forEach((el) => observer.observe(el));
+			})();
+		</script>
 	</body>
 </html>
+
+<style>
+	.writing-tags {
+		display: inline-flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-top: 8px;
+	}
+
+	.writing-tag {
+		font-family: var(--font-condensed);
+		font-size: 11px;
+		font-stretch: 75%;
+		font-weight: 500;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--ink-4);
+		border: 1px solid var(--paper-3);
+		padding: 2px 8px;
+	}
+
+	.irow-reading {
+		display: block;
+		font-family: var(--font-condensed);
+		font-size: 11px;
+		font-stretch: 75%;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		color: var(--ink-5);
+		margin-top: 4px;
+	}
+</style>
