@@ -2,9 +2,21 @@
 import BaseHead from "../components/BaseHead.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
-import { SITE_TITLE, SITE_LINKEDIN_URL, SITE_X_URL, SITE_INSTAGRAM_URL } from "../consts";
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_LINKEDIN_URL, SITE_X_URL, SITE_INSTAGRAM_URL } from "../consts";
 
 const year = new Date().getFullYear();
+
+const personJsonLd = JSON.stringify({
+	"@context": "https://schema.org",
+	"@type": "Person",
+	name: SITE_TITLE,
+	url: "https://aaronmompie.com",
+	description: SITE_DESCRIPTION,
+	jobTitle: "Engineer",
+	address: { "@type": "PostalAddress", addressLocality: "Madrid", addressCountry: "ES" },
+	sameAs: [SITE_LINKEDIN_URL, SITE_X_URL, SITE_INSTAGRAM_URL],
+	knowsAbout: ["Systems Engineering", "Infrastructure", "TypeScript", "Swift", "Python", "Writing"],
+});
 ---
 
 <!doctype html>
@@ -14,6 +26,7 @@ const year = new Date().getFullYear();
 			title={`About — ${SITE_TITLE}`}
 			description="Madrid born and raised. Engineer and writer. Building things that close the gap between people and what they need."
 		/>
+		<script type="application/ld+json" set:html={personJsonLd} />
 	</head>
 	<body>
 		<a href="#main" class="sr-only skip-link">Skip to content</a>

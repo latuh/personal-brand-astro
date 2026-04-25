@@ -3,7 +3,8 @@
 
 export const SITE_TITLE = 'Aaron Mompié';
 export const SITE_DESCRIPTION =
-	'Software engineer and writer. Exploring ideas in public through code and essays.';
+	'Engineer and writer. Building things that close the gap between people and what they need. Madrid.';
+export const SITE_TWITTER_HANDLE = '@arrrnmp';
 
 export const SITE_RESUME_URL = '/resume.pdf';
 export const SITE_LINKEDIN_URL = 'https://www.linkedin.com/in/aaron-mompie/';

@@ -17,12 +17,9 @@ const jsonLd = JSON.stringify({
 	name: SITE_TITLE,
 	url: "https://aaronmompie.com",
 	description: SITE_DESCRIPTION,
-	author: {
-		"@type": "Person",
-		name: SITE_TITLE,
-		url: "https://aaronmompie.com",
-		jobTitle: "Systems engineer",
-		sameAs: [SITE_LINKEDIN_URL, SITE_X_URL, SITE_INSTAGRAM_URL],
+	potentialAction: {
+		"@type": "SearchAction",
+		target: "https://aaronmompie.com/blog",
 	},
 });
 
