@@ -1429,12 +1429,12 @@ p {
 /* Line-by-line editorial reveal. Wrap each line of a heading
    in .reveal-line; wrap its inner content in .reveal-line-inner. */
 .reveal-line {
-  display: block;
-  overflow: hidden;
-  padding-top: 0.12em;
-  margin-top: -0.12em;
-  padding-bottom: 0.12em;
-  margin-bottom: -0.12em;
+	display: block;
+	overflow: hidden;
+	padding-top: 0.25em;
+	margin-top: -0.25em;
+	padding-bottom: 0.25em;
+	margin-bottom: -0.25em;
 }
 
 .reveal-line-inner {
